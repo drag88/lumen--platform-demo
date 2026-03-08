@@ -3,6 +3,7 @@ import { ArrowRight, Search, Activity, Zap, CheckCircle2, ChevronRight, BarChart
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { motion, AnimatePresence } from 'motion/react';
+import FeaturesBentoGrid from './components/FeaturesBentoGrid';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -483,300 +484,6 @@ const Hero = () => {
 
 // --- New Sections ---
 
-const ScanPreview = () => {
-  return (
-    <section className="py-32 px-6 bg-navy relative z-10 overflow-hidden">
-      <div className="max-w-7xl mx-auto flex flex-col items-center">
-        <span className="font-mono text-xs text-amber uppercase tracking-widest mb-12">Holistic Dashboard View</span>
-        
-        {/* Dashboard Container */}
-        <div className="w-full bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col md:flex-row border border-white/10" style={{ height: '800px' }}>
-          
-          {/* Sidebar */}
-          <div className="w-64 bg-[#F8F9FA] border-r border-gray-200 flex flex-col hidden md:flex">
-            <div className="p-6 flex items-center gap-3 border-b border-gray-200">
-              <div className="w-8 h-8 rounded-full bg-navy flex items-center justify-center">
-                <div className="w-2 h-2 rounded-full bg-amber"></div>
-              </div>
-              <span className="font-serif text-xl font-bold text-navy">Lumen</span>
-            </div>
-            
-            <div className="flex-1 overflow-y-auto py-4">
-              <div className="px-4 mb-2">
-                <span className="text-xs font-semibold text-gray-400 uppercase tracking-wider">AI Perception</span>
-              </div>
-              <nav className="space-y-1 px-3 mb-6">
-                <a href="#" className="flex items-center gap-3 px-3 py-2 bg-white rounded-lg text-navy font-medium shadow-sm border border-gray-100">
-                  <BarChart3 className="w-4 h-4 text-amber" />
-                  <span className="text-sm">Overview</span>
-                </a>
-                <a href="#" className="flex items-center gap-3 px-3 py-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors">
-                  <Box className="w-4 h-4" />
-                  <span className="text-sm">Products</span>
-                </a>
-                <a href="#" className="flex items-center gap-3 px-3 py-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors">
-                  <Tag className="w-4 h-4" />
-                  <span className="text-sm">Category</span>
-                </a>
-                <a href="#" className="flex items-center gap-3 px-3 py-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors">
-                  <Award className="w-4 h-4" />
-                  <span className="text-sm">Brand</span>
-                </a>
-                <a href="#" className="flex items-center gap-3 px-3 py-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors">
-                  <History className="w-4 h-4" />
-                  <span className="text-sm">Audit History</span>
-                </a>
-              </nav>
-
-              <div className="px-4 mb-2">
-                <span className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Action Center</span>
-              </div>
-              <nav className="space-y-1 px-3">
-                <a href="#" className="flex items-center gap-3 px-3 py-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors">
-                  <FileText className="w-4 h-4" />
-                  <span className="text-sm">Content Optimization</span>
-                </a>
-                <a href="#" className="flex items-center gap-3 px-3 py-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors">
-                  <ShieldCheck className="w-4 h-4" />
-                  <span className="text-sm">Trust & Proof</span>
-                </a>
-                <a href="#" className="flex items-center gap-3 px-3 py-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors">
-                  <Zap className="w-4 h-4" />
-                  <span className="text-sm">Authority Engine</span>
-                </a>
-                <a href="#" className="flex items-center gap-3 px-3 py-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors">
-                  <Send className="w-4 h-4" />
-                  <span className="text-sm">Outreach</span>
-                </a>
-                <a href="#" className="flex items-center gap-3 px-3 py-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors">
-                  <Settings className="w-4 h-4" />
-                  <span className="text-sm">Technical Readiness</span>
-                </a>
-              </nav>
-            </div>
-          </div>
-
-          {/* Main Content */}
-          <div className="flex-1 flex flex-col bg-white overflow-hidden">
-            {/* Topbar */}
-            <div className="h-16 border-b border-gray-200 flex items-center justify-between px-8">
-              <div className="flex items-center bg-gray-100 rounded-md px-3 py-1.5 w-64">
-                <Search className="w-4 h-4 text-gray-400 mr-2" />
-                <input type="text" placeholder="Search..." className="bg-transparent border-none outline-none text-sm w-full" />
-                <span className="text-xs text-gray-400 border border-gray-300 rounded px-1">⌘K</span>
-              </div>
-              <div className="flex items-center gap-4">
-                <button className="text-gray-400 hover:text-gray-600"><Bell className="w-5 h-5" /></button>
-                <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-gray-600"><User className="w-4 h-4" /></div>
-              </div>
-            </div>
-
-            {/* Dashboard Content */}
-            <div className="flex-1 overflow-y-auto p-8">
-              <div className="max-w-5xl mx-auto">
-                <div className="mb-8">
-                  <h1 className="text-2xl font-bold text-navy mb-2">AI Commerce Sales Multiplier</h1>
-                  <p className="text-gray-500 text-sm">Make your brand AI-ready — get discovered, recommended, and bought by AI assistants.</p>
-                </div>
-
-                <div className="flex items-center gap-2 mb-8">
-                  <button className="px-3 py-1 text-sm font-medium text-gray-600 hover:bg-gray-100 rounded-md">7d</button>
-                  <button className="px-3 py-1 text-sm font-medium bg-navy text-white rounded-md shadow-sm">30d</button>
-                  <button className="px-3 py-1 text-sm font-medium text-gray-600 hover:bg-gray-100 rounded-md">90d</button>
-                  <div className="w-px h-4 bg-gray-300 mx-2"></div>
-                  <button className="px-3 py-1 text-sm font-medium bg-blue-50 text-blue-600 rounded-md flex items-center gap-1">
-                    <Activity className="w-3 h-3" /> All
-                  </button>
-                </div>
-
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                  {/* Left Column (Multiplier & Score) */}
-                  <div className="lg:col-span-2 space-y-6">
-                    {/* Multiplier Card */}
-                    <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
-                      <div className="flex items-center justify-between mb-6">
-                        <div className="flex items-center gap-2">
-                          <Zap className="w-5 h-5 text-amber" />
-                          <h3 className="font-semibold text-navy">A.I. Commerce Multiplier</h3>
-                        </div>
-                        <span className="text-xs font-medium bg-gray-100 text-gray-600 px-2 py-1 rounded">This month</span>
-                      </div>
-                      
-                      <div className="flex items-end gap-4 mb-8">
-                        <span className="text-6xl font-bold text-navy tracking-tight">2.3x</span>
-                        <span className="flex items-center text-sm font-medium text-blue-600 bg-blue-50 px-2 py-1 rounded-md mb-2">
-                          <ArrowUpRight className="w-3 h-3 mr-1" /> +0.4x
-                        </span>
-                      </div>
-
-                      <div className="grid grid-cols-2 gap-8 border-t border-gray-100 pt-6">
-                        <div>
-                          <p className="text-xs text-gray-500 font-medium mb-1 uppercase tracking-wider">AI-Attributed Revenue</p>
-                          <p className="text-2xl font-bold text-navy">$45.2K</p>
-                        </div>
-                        <div>
-                          <p className="text-xs text-gray-500 font-medium mb-1 uppercase tracking-wider">Baseline (without AI)</p>
-                          <p className="text-2xl font-bold text-gray-400">$19.7K</p>
-                        </div>
-                      </div>
-                      <p className="text-sm text-gray-500 mt-6">Your products generate 2.3x more revenue when recommended by AI assistants.</p>
-                    </div>
-
-                    {/* Score Breakdown Card */}
-                    <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
-                      <div className="flex items-center justify-between mb-6">
-                        <h3 className="font-semibold text-navy text-sm uppercase tracking-wider">Audit Score Breakdown</h3>
-                        <span className="text-xs text-gray-500">0/4 levels good</span>
-                      </div>
-                      
-                      <div className="flex items-center gap-12">
-                        {/* Donut Chart Placeholder */}
-                        <div className="relative w-32 h-32 flex-shrink-0">
-                          <svg viewBox="0 0 100 100" className="w-full h-full transform -rotate-90">
-                            <circle cx="50" cy="50" r="40" fill="transparent" stroke="#f3f4f6" strokeWidth="12" />
-                            <circle cx="50" cy="50" r="40" fill="transparent" stroke="#ef4444" strokeWidth="12" strokeDasharray="251.2" strokeDashoffset="200.96" className="transition-all duration-1000" />
-                          </svg>
-                          <div className="absolute inset-0 flex flex-col items-center justify-center">
-                            <span className="text-3xl font-bold text-navy">80</span>
-                            <span className="text-xs text-gray-400 font-medium">of 400</span>
-                          </div>
-                        </div>
-
-                        <div className="flex-1 space-y-4">
-                          <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-2">
-                              <div className="w-2 h-2 rounded-full bg-red-500"></div>
-                              <span className="text-sm text-gray-600">Product Presence</span>
-                            </div>
-                            <span className="text-sm font-bold text-red-500">0</span>
-                          </div>
-                          <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-2">
-                              <div className="w-2 h-2 rounded-full bg-red-500"></div>
-                              <span className="text-sm text-gray-600">Product Relevance</span>
-                            </div>
-                            <span className="text-sm font-bold text-red-500">10</span>
-                          </div>
-                          <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-2">
-                              <div className="w-2 h-2 rounded-full bg-red-500"></div>
-                              <span className="text-sm text-gray-600">Brand Authority</span>
-                            </div>
-                            <span className="text-sm font-bold text-red-500">45</span>
-                          </div>
-                          <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-2">
-                              <div className="w-2 h-2 rounded-full bg-red-500"></div>
-                              <span className="text-sm text-gray-600">Purchase Readiness</span>
-                            </div>
-                            <span className="text-sm font-bold text-red-500">25</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Right Column (Activity & Insights) */}
-                  <div className="space-y-6">
-                    {/* AI Assistant Activity */}
-                    <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
-                      <div className="flex items-center justify-between mb-6">
-                        <h3 className="font-semibold text-navy text-xs uppercase tracking-wider">Execute</h3>
-                        <span className="text-xs font-medium bg-gray-100 text-gray-600 px-2 py-1 rounded">Last 7 days</span>
-                      </div>
-                      <div className="flex items-center gap-2 mb-4">
-                        <Activity className="w-4 h-4 text-blue-600" />
-                        <h4 className="font-medium text-navy">AI Assistant Activity</h4>
-                      </div>
-                      
-                      <div className="flex items-center gap-6 mb-6">
-                        <div className="relative w-20 h-20">
-                          <svg viewBox="0 0 100 100" className="w-full h-full transform -rotate-90">
-                            <circle cx="50" cy="50" r="40" fill="transparent" stroke="#f3f4f6" strokeWidth="16" />
-                            <circle cx="50" cy="50" r="40" fill="transparent" stroke="#3b82f6" strokeWidth="16" strokeDasharray="251.2" strokeDashoffset="100" />
-                            <circle cx="50" cy="50" r="40" fill="transparent" stroke="#10b981" strokeWidth="16" strokeDasharray="251.2" strokeDashoffset="200" />
-                          </svg>
-                          <div className="absolute inset-0 flex items-center justify-center">
-                            <span className="text-lg font-bold text-navy">630</span>
-                          </div>
-                        </div>
-                        <div className="flex-1 grid grid-cols-2 gap-4">
-                          <div>
-                            <p className="text-xl font-bold text-navy">211</p>
-                            <p className="text-[10px] text-gray-500 uppercase tracking-wider">Citations</p>
-                            <p className="text-xs text-green-500 mt-1">+23%</p>
-                          </div>
-                          <div>
-                            <p className="text-xl font-bold text-navy">25</p>
-                            <p className="text-[10px] text-gray-500 uppercase tracking-wider">Purchases</p>
-                            <p className="text-xs text-green-500 mt-1">+45%</p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Simulation Insights */}
-                    <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
-                      <div className="flex items-center justify-between mb-6">
-                        <h3 className="font-semibold text-navy text-xs uppercase tracking-wider">Simulate</h3>
-                        <span className="text-xs text-gray-400">Updated 5m ago</span>
-                      </div>
-                      <div className="flex items-center gap-2 mb-4">
-                        <Zap className="w-4 h-4 text-amber" />
-                        <h4 className="font-medium text-navy">Simulation Insights</h4>
-                      </div>
-
-                      <div className="bg-blue-50 border border-blue-100 rounded-lg p-4 mb-4">
-                        <div className="flex items-center justify-between mb-2">
-                          <span className="text-xs font-bold text-blue-700 uppercase tracking-wider flex items-center gap-1"><Zap className="w-3 h-3"/> Top Opportunity</span>
-                          <span className="text-[10px] bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full font-medium">High confidence</span>
-                        </div>
-                        <h5 className="font-bold text-navy mb-3">Index 28 Missing Products</h5>
-                        
-                        <div className="bg-white rounded border border-blue-100 p-3 flex items-center justify-between mb-3">
-                          <div>
-                            <p className="text-[10px] text-gray-500 uppercase">Current</p>
-                            <p className="font-semibold text-navy text-sm">23% AI visibility</p>
-                          </div>
-                          <ChevronRight className="w-4 h-4 text-gray-400" />
-                          <div>
-                            <p className="text-[10px] text-gray-500 uppercase">Projected</p>
-                            <p className="font-semibold text-blue-600 text-sm">45% AI visibility</p>
-                          </div>
-                        </div>
-
-                        <div className="flex items-center justify-between">
-                          <span className="text-sm font-bold text-navy flex items-center gap-1">
-                            <ArrowUpRight className="w-4 h-4 text-blue-600" /> +$4.5K/mo <span className="text-xs font-normal text-gray-500">projected impact</span>
-                          </span>
-                          <button className="bg-blue-700 text-white text-xs font-medium px-3 py-1.5 rounded hover:bg-blue-800 transition-colors">Start</button>
-                        </div>
-                      </div>
-
-                      <div>
-                        <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Other Opportunities</p>
-                        <button className="w-full flex items-center justify-between p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
-                          <span className="text-sm font-medium text-navy">Optimize Product Titles</span>
-                          <span className="text-xs text-blue-600 bg-blue-50 px-2 py-1 rounded">+18% clicks</span>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        <p className="text-warm/60 text-center max-w-md font-light mt-8">
-          Every scan shows you exactly where you stand and what to fix first.
-        </p>
-      </div>
-    </section>
-  );
-};
-
 const TheProblem = () => {
   return (
     <section className="py-32 px-6 bg-warm relative z-10">
@@ -1017,6 +724,276 @@ const Footer = () => {
 
 // --- Main App ---
 
+const DashboardPreviewSection = () => {
+  return (
+    <section className="py-32 px-6 bg-warm relative z-10 overflow-hidden">
+      <div className="max-w-7xl mx-auto flex flex-col items-center">
+        {/* Header */}
+        <div className="text-center mb-16">
+          <div className="font-mono text-[12px] tracking-[0.12em] text-amber uppercase mb-4 font-bold">
+            Your Dashboard
+          </div>
+          <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl text-navy mb-6">
+            Everything you need. Nothing you do not.
+          </h2>
+          <p className="text-lg md:text-xl text-[#415A77] font-light">
+            Your score, your diagnostics, your next steps. All in one place.
+          </p>
+        </div>
+
+        {/* Dashboard Container with 3D Transform */}
+        <div className="relative w-full max-w-[1200px] mx-auto perspective-[1200px]">
+          {/* Ambient Glow */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] bg-white/40 blur-[100px] rounded-full pointer-events-none"></div>
+          
+          {/* Dashboard Panel */}
+          <div 
+            className="relative bg-white rounded-t-2xl border border-navy/5 overflow-hidden flex flex-col md:flex-row shadow-[0_24px_80px_rgba(13,27,42,0.08),0_8px_32px_rgba(13,27,42,0.04)] scale-[0.9] origin-top"
+            style={{
+              transform: 'rotateX(2deg)',
+              WebkitMaskImage: 'linear-gradient(to bottom, black 60%, transparent 100%), linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%)',
+              WebkitMaskComposite: 'source-in',
+              maskImage: 'linear-gradient(to bottom, black 60%, transparent 100%), linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%)',
+              maskComposite: 'intersect',
+            }}
+          >
+            {/* Sidebar */}
+            <div className="w-64 bg-[#FAFAFA] border-r border-navy/5 p-6 flex-shrink-0 hidden md:flex flex-col">
+              <div className="flex items-center gap-3 mb-10">
+                <div className="w-8 h-8 rounded-full bg-navy flex items-center justify-center">
+                  <div className="w-3 h-3 rounded-full bg-amber"></div>
+                </div>
+                <span className="font-serif text-xl font-bold text-navy">Lumen</span>
+              </div>
+              
+              <div className="mb-8">
+                <div className="text-[10px] font-bold text-navy/40 uppercase tracking-wider mb-3">AI Perception</div>
+                <div className="space-y-1">
+                  <div className="flex items-center gap-3 px-3 py-2 rounded-lg bg-white shadow-sm border border-navy/5 text-navy font-medium text-sm">
+                    <BarChart3 className="w-4 h-4 text-amber" /> Overview
+                  </div>
+                  <div className="flex items-center gap-3 px-3 py-2 rounded-lg text-navy/60 font-medium text-sm">
+                    <Box className="w-4 h-4" /> Products
+                  </div>
+                  <div className="flex items-center gap-3 px-3 py-2 rounded-lg text-navy/60 font-medium text-sm">
+                    <Tag className="w-4 h-4" /> Category
+                  </div>
+                  <div className="flex items-center gap-3 px-3 py-2 rounded-lg text-navy/60 font-medium text-sm">
+                    <Award className="w-4 h-4" /> Brand
+                  </div>
+                  <div className="flex items-center gap-3 px-3 py-2 rounded-lg text-navy/60 font-medium text-sm">
+                    <History className="w-4 h-4" /> Audit History
+                  </div>
+                </div>
+              </div>
+              
+              <div>
+                <div className="text-[10px] font-bold text-navy/40 uppercase tracking-wider mb-3">Action Center</div>
+                <div className="space-y-1">
+                  <div className="flex items-center gap-3 px-3 py-2 rounded-lg text-navy/60 font-medium text-sm">
+                    <FileText className="w-4 h-4" /> Content Optimization
+                  </div>
+                  <div className="flex items-center gap-3 px-3 py-2 rounded-lg text-navy/60 font-medium text-sm">
+                    <ShieldCheck className="w-4 h-4" /> Trust & Proof
+                  </div>
+                  <div className="flex items-center gap-3 px-3 py-2 rounded-lg text-navy/60 font-medium text-sm">
+                    <Zap className="w-4 h-4" /> Authority Engine
+                  </div>
+                  <div className="flex items-center gap-3 px-3 py-2 rounded-lg text-navy/60 font-medium text-sm">
+                    <Send className="w-4 h-4" /> Outreach
+                  </div>
+                  <div className="flex items-center gap-3 px-3 py-2 rounded-lg text-navy/60 font-medium text-sm">
+                    <Settings className="w-4 h-4" /> Technical Readiness
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Main Content */}
+            <div className="flex-1 flex flex-col min-w-0 bg-white">
+              {/* Topbar */}
+              <div className="h-16 border-b border-navy/5 bg-white flex items-center justify-between px-8">
+                <div className="relative w-64">
+                  <Search className="w-4 h-4 text-navy/30 absolute left-3 top-1/2 -translate-y-1/2" />
+                  <input type="text" placeholder="Search..." className="w-full bg-warm/30 border border-navy/5 rounded-md py-1.5 pl-9 pr-3 text-sm focus:outline-none" readOnly />
+                  <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1">
+                    <kbd className="font-sans text-[10px] text-navy/40 bg-white border border-navy/10 rounded px-1">⌘K</kbd>
+                  </div>
+                </div>
+                <div className="flex items-center gap-4">
+                  <Bell className="w-5 h-5 text-navy/40" />
+                  <div className="w-8 h-8 rounded-full bg-warm flex items-center justify-center">
+                    <User className="w-4 h-4 text-navy/60" />
+                  </div>
+                </div>
+              </div>
+
+              {/* Dashboard Content */}
+              <div className="p-8 flex gap-6 pb-32">
+                <div className="flex-1 space-y-6">
+                  {/* Multiplier Card */}
+                  <div className="bg-white rounded-xl border border-navy/5 p-6 shadow-sm">
+                    <div className="flex items-center justify-between mb-6">
+                      <div className="flex items-center gap-2 text-navy font-medium">
+                        <Zap className="w-4 h-4 text-amber" /> A.I. Commerce Multiplier
+                      </div>
+                      <div className="text-xs font-medium text-navy/50 bg-warm/50 px-2 py-1 rounded">This Month</div>
+                    </div>
+                    <div className="flex items-baseline gap-4 mb-8">
+                      <div className="text-6xl font-sans font-medium text-navy tracking-tight">2.3x</div>
+                      <div className="flex items-center gap-1 text-sm font-medium text-blue-600 bg-blue-50 px-2 py-0.5 rounded">
+                        <ArrowUpRight className="w-3 h-3" /> +0.4x
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-2 gap-8 pt-6 border-t border-navy/5">
+                      <div>
+                        <div className="text-xs font-bold text-navy/40 uppercase tracking-wider mb-2">AI-Attributed Revenue</div>
+                        <div className="text-2xl font-medium text-navy">$45.2K</div>
+                      </div>
+                      <div>
+                        <div className="text-xs font-bold text-navy/40 uppercase tracking-wider mb-2">Baseline (Without AI)</div>
+                        <div className="text-2xl font-medium text-navy/40">$19.7K</div>
+                      </div>
+                    </div>
+                    <p className="text-sm text-navy/60 mt-6 pt-6 border-t border-navy/5">
+                      Your products generate 2.3x more revenue when recommended by AI assistants.
+                    </p>
+                  </div>
+
+                  {/* Audit Score Card */}
+                  <div className="bg-white rounded-xl border border-navy/5 p-6 shadow-sm">
+                    <div className="flex items-center justify-between mb-8">
+                      <div className="text-sm font-bold text-navy uppercase tracking-wider">Audit Score Breakdown</div>
+                      <div className="text-sm text-navy/50">0/4 levels good</div>
+                    </div>
+                    <div className="flex items-center gap-12">
+                      {/* Donut Chart */}
+                      <div className="relative w-32 h-32 flex-shrink-0">
+                        <svg viewBox="0 0 100 100" className="w-full h-full transform -rotate-90">
+                          <circle cx="50" cy="50" r="40" fill="transparent" stroke="#f1f5f9" strokeWidth="12" />
+                          <circle cx="50" cy="50" r="40" fill="transparent" stroke="#ef4444" strokeWidth="12" strokeDasharray="251.2" strokeDashoffset="50.24" />
+                        </svg>
+                        <div className="absolute inset-0 flex flex-col items-center justify-center">
+                          <span className="text-3xl font-bold text-navy leading-none">80</span>
+                          <span className="text-xs text-navy/40 font-medium">of 400</span>
+                        </div>
+                      </div>
+                      
+                      {/* Breakdown List */}
+                      <div className="flex-1 space-y-4">
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-2 text-sm text-navy/80"><div className="w-2 h-2 rounded-full bg-red-500"></div>Product Presence</div>
+                          <div className="text-sm font-bold text-red-500">0</div>
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-2 text-sm text-navy/80"><div className="w-2 h-2 rounded-full bg-red-500"></div>Product Relevance</div>
+                          <div className="text-sm font-bold text-red-500">10</div>
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-2 text-sm text-navy/80"><div className="w-2 h-2 rounded-full bg-red-500"></div>Brand Authority</div>
+                          <div className="text-sm font-bold text-red-500">45</div>
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-2 text-sm text-navy/80"><div className="w-2 h-2 rounded-full bg-red-500"></div>Purchase Readiness</div>
+                          <div className="text-sm font-bold text-red-500">25</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Right Panel */}
+                <div className="w-80 space-y-6 hidden lg:block">
+                  {/* AI Assistant Activity */}
+                  <div className="bg-white rounded-xl border border-navy/5 p-6 shadow-sm">
+                    <div className="flex items-center justify-between mb-6">
+                      <div className="flex items-center gap-2 text-navy font-medium text-sm">
+                        <Activity className="w-4 h-4 text-blue-500" /> AI Assistant Activity
+                      </div>
+                      <div className="text-xs text-navy/40">Last 7 days</div>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <div className="relative w-16 h-16">
+                        <svg viewBox="0 0 100 100" className="w-full h-full transform -rotate-90">
+                          <circle cx="50" cy="50" r="40" fill="transparent" stroke="#f1f5f9" strokeWidth="16" />
+                          <circle cx="50" cy="50" r="40" fill="transparent" stroke="#3b82f6" strokeWidth="16" strokeDasharray="251.2" strokeDashoffset="62.8" />
+                          <circle cx="50" cy="50" r="40" fill="transparent" stroke="#10b981" strokeWidth="16" strokeDasharray="251.2" strokeDashoffset="188.4" />
+                        </svg>
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <span className="text-lg font-bold text-navy">630</span>
+                        </div>
+                      </div>
+                      <div className="text-center">
+                        <div className="text-xl font-bold text-navy">211</div>
+                        <div className="text-[10px] font-bold text-navy/40 uppercase tracking-wider mb-1">Citations</div>
+                        <div className="text-xs font-medium text-emerald-500">+23%</div>
+                      </div>
+                      <div className="text-center">
+                        <div className="text-xl font-bold text-navy">25</div>
+                        <div className="text-[10px] font-bold text-navy/40 uppercase tracking-wider mb-1">Purchases</div>
+                        <div className="text-xs font-medium text-emerald-500">+45%</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Simulation Insights */}
+                  <div className="bg-white rounded-xl border border-navy/5 p-6 shadow-sm">
+                    <div className="flex items-center justify-between mb-6">
+                      <div className="flex items-center gap-2 text-navy font-medium text-sm">
+                        <Zap className="w-4 h-4 text-amber" /> Simulation Insights
+                      </div>
+                      <div className="text-xs text-navy/40">Updated 5m ago</div>
+                    </div>
+                    
+                    <div className="bg-blue-50/50 rounded-xl p-4 border border-blue-100 mb-4">
+                      <div className="flex items-center justify-between mb-3">
+                        <div className="flex items-center gap-1.5 text-xs font-bold text-blue-600 uppercase tracking-wider">
+                          <Target className="w-3 h-3" /> Top Opportunity
+                        </div>
+                        <div className="text-[10px] font-medium text-blue-600 bg-blue-100 px-2 py-0.5 rounded-full">High confidence</div>
+                      </div>
+                      <div className="font-serif text-lg text-navy mb-4">Index 28 Missing Products</div>
+                      
+                      <div className="flex items-center justify-between bg-white rounded-lg p-3 border border-blue-100 mb-4">
+                        <div>
+                          <div className="text-[10px] font-bold text-navy/40 uppercase tracking-wider mb-1">Current</div>
+                          <div className="text-sm font-bold text-navy">23% AI visibility</div>
+                        </div>
+                        <ChevronRight className="w-4 h-4 text-navy/20" />
+                        <div>
+                          <div className="text-[10px] font-bold text-navy/40 uppercase tracking-wider mb-1">Projected</div>
+                          <div className="text-sm font-bold text-blue-600">45% AI visibility</div>
+                        </div>
+                      </div>
+                      
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-1.5 text-sm font-bold text-navy">
+                          <ArrowUpRight className="w-4 h-4 text-blue-600" /> +$4.5K/mo <span className="text-xs font-normal text-navy/50">projected impact</span>
+                        </div>
+                        <button className="bg-blue-600 text-white text-sm font-medium px-4 py-1.5 rounded-lg shadow-sm hover:bg-blue-700 transition-colors">
+                          Start
+                        </button>
+                      </div>
+                    </div>
+                    
+                    <div>
+                      <div className="text-[10px] font-bold text-navy/40 uppercase tracking-wider mb-3">Other Opportunities</div>
+                      <div className="flex items-center justify-between p-3 rounded-lg border border-navy/5 hover:border-navy/10 transition-colors cursor-pointer">
+                        <div className="text-sm font-medium text-navy/80">Optimize Product Titles</div>
+                        <div className="text-xs font-medium text-blue-600 bg-blue-50 px-2 py-1 rounded">+18% clicks</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
 export default function App() {
   return (
     <div className="relative">
@@ -1024,9 +1001,10 @@ export default function App() {
       <Navbar />
       <main>
         <Hero />
-        <ScanPreview />
+        <DashboardPreviewSection />
         <TheProblem />
         <HowItWorks />
+        <FeaturesBentoGrid />
         <Testimonial />
         <PreFooterCTA />
       </main>
