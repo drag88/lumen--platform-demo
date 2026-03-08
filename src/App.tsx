@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { ArrowRight, Search, Activity, Zap, CheckCircle2, ChevronRight, BarChart3, Target, Compass, Sparkles } from 'lucide-react';
+import { ArrowRight, Search, Activity, Zap, CheckCircle2, ChevronRight, BarChart3, Target, Compass, Sparkles, Box, Tag, Award, History, FileText, ShieldCheck, Send, Settings, Bell, User, ArrowUpRight, Eye, Bot, PlayCircle } from 'lucide-react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { motion, AnimatePresence } from 'motion/react';
@@ -9,39 +9,61 @@ gsap.registerPlugin(ScrollTrigger);
 // --- Components ---
 
 const Navbar = () => {
-  const navRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      ScrollTrigger.create({
-        start: 'top -50',
-        end: 99999,
-        toggleClass: { className: 'nav-scrolled', targets: navRef.current },
-      });
-    });
-    return () => ctx.revert();
-  }, []);
+  const [isHovered, setIsHovered] = useState(false);
 
   return (
-    <nav
-      ref={navRef}
-      className="fixed top-6 left-1/2 -translate-x-1/2 z-50 flex items-center justify-between px-6 py-3 rounded-full border border-transparent transition-all duration-300 w-[90%] max-w-5xl"
-    >
-      <div className="flex items-center gap-2">
-        <div className="w-6 h-6 rounded-full bg-amber flex items-center justify-center">
-          <div className="w-2 h-2 rounded-full bg-navy"></div>
+    <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50">
+      <motion.nav
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        className="flex items-center justify-between px-2 py-2 rounded-full bg-[#E5E5E5]/90 backdrop-blur-md border border-white/20 shadow-2xl overflow-hidden cursor-pointer relative"
+        initial={{ width: '160px' }}
+        animate={{ width: isHovered ? '600px' : '160px' }}
+        transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+      >
+        {/* Shine effect */}
+        <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/40 to-transparent animate-[shimmer_3s_infinite] skew-x-12 pointer-events-none"></div>
+
+        <div className="flex items-center gap-2 px-4 shrink-0">
+          <div className="w-6 h-6 rounded-full bg-amber flex items-center justify-center">
+            <div className="w-2 h-2 rounded-full bg-navy"></div>
+          </div>
+          <span className="font-serif text-lg font-bold tracking-tight text-navy">Lumen</span>
         </div>
-        <span className="font-serif text-xl tracking-tight text-navy">Lumen</span>
-      </div>
-      <div className="hidden md:flex items-center gap-8 text-sm font-medium text-navy/70">
-        <a href="#features" className="hover:text-navy transition-colors hover:-translate-y-[1px]">Features</a>
-        <a href="#philosophy" className="hover:text-navy transition-colors hover:-translate-y-[1px]">Philosophy</a>
-        <a href="#protocol" className="hover:text-navy transition-colors hover:-translate-y-[1px]">Protocol</a>
-      </div>
-      <button className="btn-magnetic bg-navy text-warm px-5 py-2.5 rounded-full text-sm font-medium flex items-center gap-2">
-        <span>Check my brand</span>
-      </button>
-    </nav>
+
+        <div className="flex items-center justify-end flex-1 overflow-hidden pr-2">
+          <AnimatePresence>
+            {isHovered && (
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 10 }}
+                transition={{ duration: 0.3, delay: 0.1 }}
+                className="flex items-center gap-8 text-sm font-medium text-navy/70 mr-8 whitespace-nowrap"
+              >
+                <a href="#features" className="hover:text-navy transition-colors">Features</a>
+                <a href="#philosophy" className="hover:text-navy transition-colors">Philosophy</a>
+                <a href="#protocol" className="hover:text-navy transition-colors">Protocol</a>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          <AnimatePresence>
+            {isHovered && (
+              <motion.button
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.8 }}
+                transition={{ duration: 0.3, delay: 0.2 }}
+                className="bg-navy text-white px-6 py-2.5 rounded-full text-sm font-medium shrink-0 whitespace-nowrap"
+              >
+                Check my brand
+              </motion.button>
+            )}
+          </AnimatePresence>
+        </div>
+      </motion.nav>
+    </div>
   );
 };
 
@@ -397,11 +419,11 @@ const Hero = () => {
   }, []);
 
   return (
-    <section ref={containerRef} className="relative min-h-[100dvh] flex flex-col justify-center px-6 pt-32 pb-20 overflow-hidden bg-warm">
+    <section ref={containerRef} className="relative min-h-[100dvh] flex flex-col justify-start px-6 pt-32 lg:pt-40 pb-20 overflow-hidden bg-warm">
       {/* Subtle background texture/gradient for warmth */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(232,168,56,0.05),transparent_50%)]"></div>
       
-      <div className="max-w-7xl mx-auto w-full relative z-10 flex flex-col lg:flex-row items-center gap-8 xl:gap-16">
+      <div className="max-w-7xl mx-auto w-full relative z-10 flex flex-col lg:flex-row items-center gap-8 lg:gap-4 xl:gap-8">
         <div className="flex-1 w-full max-w-2xl lg:max-w-none" ref={textRef}>
           <div className="hero-elem inline-flex items-center gap-2 px-3 py-1 rounded-full border border-navy/10 bg-white/50 backdrop-blur-sm mb-8">
             <span className="w-2 h-2 rounded-full bg-amber animate-pulse"></span>
@@ -409,12 +431,24 @@ const Hero = () => {
           </div>
           
           <h1 className="hero-elem text-5xl md:text-6xl xl:text-7xl leading-[1.1] text-navy mb-6">
-            <span className="font-sans font-medium tracking-tight block text-3xl md:text-4xl xl:text-5xl mb-2 opacity-90">Measure your brand.</span>
+            <span className="font-sans font-medium tracking-tight block text-4xl md:text-5xl xl:text-6xl mb-2 opacity-90">Measure your brand.</span>
             <span className="font-serif italic text-amber">See where AI sees you.</span>
           </h1>
           
-          <p className="hero-elem text-lg md:text-xl text-navy/70 max-w-xl mb-10 font-light leading-relaxed">
-            One score across ChatGPT, Claude, Gemini, and Perplexity. Know exactly where you stand in 60 seconds. No account required.
+          <p className="hero-elem text-lg md:text-xl text-navy/70 max-w-xl mb-10 font-light leading-[1.8]">
+            Track, diagnose, and improve your brand's performance across AI search engines and agentic commerce through key dimensions like{' '}
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-white border border-navy/10 shadow-sm text-sm font-medium text-navy mx-1 align-middle transition-transform hover:-translate-y-0.5 hover:shadow-md cursor-default">
+              <Eye className="w-4 h-4 text-navy/40" /> AI Visibility
+            </span>
+            ,{' '}
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-white border border-navy/10 shadow-sm text-sm font-medium text-navy mx-1 align-middle transition-transform hover:-translate-y-0.5 hover:shadow-md cursor-default">
+              <Bot className="w-4 h-4 text-navy/40" /> Agentic Readiness
+            </span>
+            , and{' '}
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-white border border-navy/10 shadow-sm text-sm font-medium text-navy mx-1 align-middle transition-transform hover:-translate-y-0.5 hover:shadow-md cursor-default">
+              <PlayCircle className="w-4 h-4 text-navy/40" /> Deploy-Ready Actions
+            </span>
+            .
           </p>
           
           <div className="hero-elem flex flex-col sm:flex-row items-center gap-4 w-full max-w-xl">
@@ -424,7 +458,7 @@ const Hero = () => {
               </div>
               <input 
                 type="text" 
-                placeholder="Enter brand name or URL..." 
+                placeholder="Enter brand name or URL" 
                 className="w-full bg-white border border-navy/10 rounded-full py-4 pl-12 pr-6 text-navy placeholder:text-navy/40 focus:outline-none focus:ring-2 focus:ring-amber/50 focus:border-amber transition-all shadow-sm text-lg"
               />
             </div>
@@ -433,12 +467,12 @@ const Hero = () => {
               <ArrowRight className="w-5 h-5" />
             </button>
           </div>
-          <p className="hero-elem text-xs font-mono text-navy/50 mt-4 ml-4">Value before signup. Instant results.</p>
+          <p className="hero-elem text-xs font-mono text-navy/50 mt-4 ml-4">No account required. Value before signup.</p>
         </div>
         
         {/* Animated Flow Visual - Scaled to fit */}
-        <div className="hero-elem flex-1 w-full relative h-[500px] sm:h-[600px] lg:h-[700px] xl:h-[800px] overflow-hidden lg:overflow-visible flex items-center justify-center lg:justify-end">
-           <div className="w-[900px] origin-center lg:origin-right scale-[0.45] sm:scale-[0.65] lg:scale-[0.6] xl:scale-[0.8] absolute">
+        <div className="hero-elem flex-1 w-full relative h-[350px] sm:h-[450px] lg:h-[500px] xl:h-[600px] overflow-hidden lg:overflow-visible flex items-center justify-center lg:justify-start">
+           <div className="w-[900px] origin-center lg:origin-left scale-[0.45] sm:scale-[0.65] lg:scale-[0.6] xl:scale-[0.8] absolute lg:translate-x-[-5%] xl:translate-x-[-10%]">
              <HeroVisual />
            </div>
         </div>
@@ -447,392 +481,482 @@ const Hero = () => {
   );
 };
 
-// --- Feature Cards ---
+// --- New Sections ---
 
-const DiagnosticShuffler = () => {
-  const [cards, setCards] = useState([
-    { id: 1, title: 'ChatGPT', score: 92, trend: '+4' },
-    { id: 2, title: 'Claude', score: 78, trend: '-2' },
-    { id: 3, title: 'Gemini', score: 85, trend: '+1' },
-    { id: 4, title: 'Perplexity', score: 64, trend: '0' },
-  ]);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCards(prev => {
-        const newCards = [...prev];
-        const last = newCards.pop()!;
-        newCards.unshift(last);
-        return newCards;
-      });
-    }, 3000);
-    return () => clearInterval(interval);
-  }, []);
-
+const ScanPreview = () => {
   return (
-    <div className="bg-white rounded-[2rem] p-8 border border-navy/5 shadow-sm h-full flex flex-col relative overflow-hidden group">
-      <div className="mb-8">
-        <div className="w-10 h-10 rounded-full bg-warm flex items-center justify-center mb-4">
-          <Activity className="w-5 h-5 text-amber" />
-        </div>
-        <h3 className="font-sans font-semibold text-xl text-navy mb-2">Measure Visibility</h3>
-        <p className="text-navy/60 text-sm leading-relaxed">One score across all major LLMs. Know where you stand in 60 seconds.</p>
-      </div>
-      
-      <div className="relative h-48 mt-auto perspective-[1000px]">
-        {cards.map((card, index) => {
-          const isTop = index === 0;
-          return (
-            <div 
-              key={card.id}
-              className="absolute inset-x-0 top-0 bg-warm rounded-2xl p-4 border border-navy/5 shadow-sm transition-all duration-700 ease-[cubic-bezier(0.34,1.56,0.64,1)]"
-              style={{
-                transform: `translateY(${index * 12}px) scale(${1 - index * 0.05})`,
-                opacity: 1 - index * 0.2,
-                zIndex: 10 - index,
-              }}
-            >
-              <div className="flex justify-between items-center mb-2">
-                <span className="font-mono text-xs font-bold text-navy">{card.title}</span>
-                <span className={`font-mono text-xs ${card.trend.startsWith('+') ? 'text-emerald-600' : card.trend.startsWith('-') ? 'text-red-500' : 'text-navy/40'}`}>
-                  {card.trend}
-                </span>
+    <section className="py-32 px-6 bg-navy relative z-10 overflow-hidden">
+      <div className="max-w-7xl mx-auto flex flex-col items-center">
+        <span className="font-mono text-xs text-amber uppercase tracking-widest mb-12">Holistic Dashboard View</span>
+        
+        {/* Dashboard Container */}
+        <div className="w-full bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col md:flex-row border border-white/10" style={{ height: '800px' }}>
+          
+          {/* Sidebar */}
+          <div className="w-64 bg-[#F8F9FA] border-r border-gray-200 flex flex-col hidden md:flex">
+            <div className="p-6 flex items-center gap-3 border-b border-gray-200">
+              <div className="w-8 h-8 rounded-full bg-navy flex items-center justify-center">
+                <div className="w-2 h-2 rounded-full bg-amber"></div>
               </div>
-              <div className="flex items-end gap-2">
-                <span className="font-serif text-3xl text-navy leading-none">{card.score}</span>
-                <span className="font-mono text-xs text-navy/40 mb-1">/100</span>
+              <span className="font-serif text-xl font-bold text-navy">Lumen</span>
+            </div>
+            
+            <div className="flex-1 overflow-y-auto py-4">
+              <div className="px-4 mb-2">
+                <span className="text-xs font-semibold text-gray-400 uppercase tracking-wider">AI Perception</span>
               </div>
-              {isTop && (
-                <div className="mt-3 h-1 w-full bg-navy/5 rounded-full overflow-hidden">
-                  <div className="h-full bg-amber rounded-full" style={{ width: `${card.score}%` }}></div>
+              <nav className="space-y-1 px-3 mb-6">
+                <a href="#" className="flex items-center gap-3 px-3 py-2 bg-white rounded-lg text-navy font-medium shadow-sm border border-gray-100">
+                  <BarChart3 className="w-4 h-4 text-amber" />
+                  <span className="text-sm">Overview</span>
+                </a>
+                <a href="#" className="flex items-center gap-3 px-3 py-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors">
+                  <Box className="w-4 h-4" />
+                  <span className="text-sm">Products</span>
+                </a>
+                <a href="#" className="flex items-center gap-3 px-3 py-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors">
+                  <Tag className="w-4 h-4" />
+                  <span className="text-sm">Category</span>
+                </a>
+                <a href="#" className="flex items-center gap-3 px-3 py-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors">
+                  <Award className="w-4 h-4" />
+                  <span className="text-sm">Brand</span>
+                </a>
+                <a href="#" className="flex items-center gap-3 px-3 py-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors">
+                  <History className="w-4 h-4" />
+                  <span className="text-sm">Audit History</span>
+                </a>
+              </nav>
+
+              <div className="px-4 mb-2">
+                <span className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Action Center</span>
+              </div>
+              <nav className="space-y-1 px-3">
+                <a href="#" className="flex items-center gap-3 px-3 py-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors">
+                  <FileText className="w-4 h-4" />
+                  <span className="text-sm">Content Optimization</span>
+                </a>
+                <a href="#" className="flex items-center gap-3 px-3 py-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors">
+                  <ShieldCheck className="w-4 h-4" />
+                  <span className="text-sm">Trust & Proof</span>
+                </a>
+                <a href="#" className="flex items-center gap-3 px-3 py-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors">
+                  <Zap className="w-4 h-4" />
+                  <span className="text-sm">Authority Engine</span>
+                </a>
+                <a href="#" className="flex items-center gap-3 px-3 py-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors">
+                  <Send className="w-4 h-4" />
+                  <span className="text-sm">Outreach</span>
+                </a>
+                <a href="#" className="flex items-center gap-3 px-3 py-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors">
+                  <Settings className="w-4 h-4" />
+                  <span className="text-sm">Technical Readiness</span>
+                </a>
+              </nav>
+            </div>
+          </div>
+
+          {/* Main Content */}
+          <div className="flex-1 flex flex-col bg-white overflow-hidden">
+            {/* Topbar */}
+            <div className="h-16 border-b border-gray-200 flex items-center justify-between px-8">
+              <div className="flex items-center bg-gray-100 rounded-md px-3 py-1.5 w-64">
+                <Search className="w-4 h-4 text-gray-400 mr-2" />
+                <input type="text" placeholder="Search..." className="bg-transparent border-none outline-none text-sm w-full" />
+                <span className="text-xs text-gray-400 border border-gray-300 rounded px-1">⌘K</span>
+              </div>
+              <div className="flex items-center gap-4">
+                <button className="text-gray-400 hover:text-gray-600"><Bell className="w-5 h-5" /></button>
+                <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-gray-600"><User className="w-4 h-4" /></div>
+              </div>
+            </div>
+
+            {/* Dashboard Content */}
+            <div className="flex-1 overflow-y-auto p-8">
+              <div className="max-w-5xl mx-auto">
+                <div className="mb-8">
+                  <h1 className="text-2xl font-bold text-navy mb-2">AI Commerce Sales Multiplier</h1>
+                  <p className="text-gray-500 text-sm">Make your brand AI-ready — get discovered, recommended, and bought by AI assistants.</p>
                 </div>
-              )}
-            </div>
-          );
-        })}
-      </div>
-    </div>
-  );
-};
 
-const TelemetryTypewriter = () => {
-  const [text, setText] = useState('');
-  const fullText = "> Analyzing brand sentiment...\n> Entity resolution: High\n> Citation frequency: Low\n> Contextual accuracy: 84%\n\nDiagnostic: Improve primary entity associations in authoritative sources.";
-  
-  useEffect(() => {
-    let i = 0;
-    const interval = setInterval(() => {
-      setText(fullText.slice(0, i));
-      i++;
-      if (i > fullText.length) {
-        setTimeout(() => { i = 0; }, 5000); // Reset after 5s
-      }
-    }, 50);
-    return () => clearInterval(interval);
-  }, []);
+                <div className="flex items-center gap-2 mb-8">
+                  <button className="px-3 py-1 text-sm font-medium text-gray-600 hover:bg-gray-100 rounded-md">7d</button>
+                  <button className="px-3 py-1 text-sm font-medium bg-navy text-white rounded-md shadow-sm">30d</button>
+                  <button className="px-3 py-1 text-sm font-medium text-gray-600 hover:bg-gray-100 rounded-md">90d</button>
+                  <div className="w-px h-4 bg-gray-300 mx-2"></div>
+                  <button className="px-3 py-1 text-sm font-medium bg-blue-50 text-blue-600 rounded-md flex items-center gap-1">
+                    <Activity className="w-3 h-3" /> All
+                  </button>
+                </div>
 
-  return (
-    <div className="bg-navy rounded-[2rem] p-8 border border-navy-light shadow-sm h-full flex flex-col relative overflow-hidden group">
-      <div className="mb-8">
-        <div className="w-10 h-10 rounded-full bg-navy-light flex items-center justify-center mb-4">
-          <Target className="w-5 h-5 text-amber" />
-        </div>
-        <h3 className="font-sans font-semibold text-xl text-warm mb-2">Understand Why</h3>
-        <p className="text-warm/60 text-sm leading-relaxed">Seven diagnostic factors explaining your score, translated for non-technical marketers.</p>
-      </div>
-      
-      <div className="mt-auto bg-navy-light/50 rounded-2xl p-4 border border-white/5 h-48 relative">
-        <div className="absolute top-3 right-4 flex items-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-amber animate-pulse"></span>
-          <span className="font-mono text-[10px] text-warm/40 uppercase tracking-widest">Live Feed</span>
-        </div>
-        <pre className="font-mono text-xs text-warm/80 whitespace-pre-wrap mt-4">
-          {text}
-          <span className="inline-block w-2 h-3 bg-amber ml-1 animate-pulse"></span>
-        </pre>
-      </div>
-    </div>
-  );
-};
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                  {/* Left Column (Multiplier & Score) */}
+                  <div className="lg:col-span-2 space-y-6">
+                    {/* Multiplier Card */}
+                    <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
+                      <div className="flex items-center justify-between mb-6">
+                        <div className="flex items-center gap-2">
+                          <Zap className="w-5 h-5 text-amber" />
+                          <h3 className="font-semibold text-navy">A.I. Commerce Multiplier</h3>
+                        </div>
+                        <span className="text-xs font-medium bg-gray-100 text-gray-600 px-2 py-1 rounded">This month</span>
+                      </div>
+                      
+                      <div className="flex items-end gap-4 mb-8">
+                        <span className="text-6xl font-bold text-navy tracking-tight">2.3x</span>
+                        <span className="flex items-center text-sm font-medium text-blue-600 bg-blue-50 px-2 py-1 rounded-md mb-2">
+                          <ArrowUpRight className="w-3 h-3 mr-1" /> +0.4x
+                        </span>
+                      </div>
 
-const CursorProtocolScheduler = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      const tl = gsap.timeline({ repeat: -1, repeatDelay: 1 });
-      
-      // Reset
-      tl.set('.cursor-svg', { x: 0, y: 0, opacity: 0, scale: 1 });
-      tl.set('.task-item', { backgroundColor: 'transparent', borderColor: 'rgba(13, 27, 42, 0.05)' });
-      
-      // Enter
-      tl.to('.cursor-svg', { opacity: 1, duration: 0.3 });
-      
-      // Move to first task
-      tl.to('.cursor-svg', { x: 40, y: 30, duration: 0.8, ease: 'power2.inOut' });
-      
-      // Click
-      tl.to('.cursor-svg', { scale: 0.8, duration: 0.1 });
-      tl.to('.task-1', { backgroundColor: 'rgba(232, 168, 56, 0.1)', borderColor: 'rgba(232, 168, 56, 0.5)', duration: 0.1 });
-      tl.to('.cursor-svg', { scale: 1, duration: 0.1 });
-      
-      // Move to second task
-      tl.to('.cursor-svg', { x: 40, y: 80, duration: 0.6, ease: 'power2.inOut', delay: 0.5 });
-      
-      // Click
-      tl.to('.cursor-svg', { scale: 0.8, duration: 0.1 });
-      tl.to('.task-2', { backgroundColor: 'rgba(13, 27, 42, 0.05)', borderColor: 'rgba(13, 27, 42, 0.2)', duration: 0.1 });
-      tl.to('.cursor-svg', { scale: 1, duration: 0.1 });
-      
-      // Move to button
-      tl.to('.cursor-svg', { x: 120, y: 140, duration: 0.8, ease: 'power2.inOut', delay: 0.5 });
-      
-      // Click button
-      tl.to('.cursor-svg', { scale: 0.8, duration: 0.1 });
-      tl.to('.action-btn', { scale: 0.95, duration: 0.1 });
-      tl.to('.cursor-svg', { scale: 1, duration: 0.1 });
-      tl.to('.action-btn', { scale: 1, duration: 0.1 });
-      
-      // Exit
-      tl.to('.cursor-svg', { opacity: 0, duration: 0.3, delay: 0.5 });
-      
-    }, containerRef);
-    return () => ctx.revert();
-  }, []);
+                      <div className="grid grid-cols-2 gap-8 border-t border-gray-100 pt-6">
+                        <div>
+                          <p className="text-xs text-gray-500 font-medium mb-1 uppercase tracking-wider">AI-Attributed Revenue</p>
+                          <p className="text-2xl font-bold text-navy">$45.2K</p>
+                        </div>
+                        <div>
+                          <p className="text-xs text-gray-500 font-medium mb-1 uppercase tracking-wider">Baseline (without AI)</p>
+                          <p className="text-2xl font-bold text-gray-400">$19.7K</p>
+                        </div>
+                      </div>
+                      <p className="text-sm text-gray-500 mt-6">Your products generate 2.3x more revenue when recommended by AI assistants.</p>
+                    </div>
 
-  return (
-    <div className="bg-white rounded-[2rem] p-8 border border-navy/5 shadow-sm h-full flex flex-col relative overflow-hidden group">
-      <div className="mb-8">
-        <div className="w-10 h-10 rounded-full bg-warm flex items-center justify-center mb-4">
-          <Compass className="w-5 h-5 text-amber" />
-        </div>
-        <h3 className="font-sans font-semibold text-xl text-navy mb-2">Fix What Matters</h3>
-        <p className="text-navy/60 text-sm leading-relaxed">Prioritized recommendations ranked by impact and effort, with expected score improvements.</p>
-      </div>
-      
-      <div ref={containerRef} className="mt-auto bg-warm rounded-2xl p-4 border border-navy/5 h-48 relative">
-        <div className="flex flex-col gap-2">
-          <div className="task-item task-1 p-3 rounded-xl border border-navy/5 flex items-center justify-between transition-colors">
-            <div className="flex items-center gap-3">
-              <div className="w-4 h-4 rounded-full border border-navy/20"></div>
-              <span className="font-mono text-xs text-navy">Update Wikipedia Entity</span>
-            </div>
-            <span className="font-mono text-[10px] text-amber font-bold">+12 pts</span>
-          </div>
-          <div className="task-item task-2 p-3 rounded-xl border border-navy/5 flex items-center justify-between transition-colors">
-            <div className="flex items-center gap-3">
-              <div className="w-4 h-4 rounded-full border border-navy/20"></div>
-              <span className="font-mono text-xs text-navy">Publish PR on TechCrunch</span>
-            </div>
-            <span className="font-mono text-[10px] text-navy/40 font-bold">+5 pts</span>
-          </div>
-        </div>
-        
-        <div className="absolute bottom-4 right-4">
-          <div className="action-btn bg-navy text-warm px-4 py-2 rounded-lg font-mono text-xs transition-transform">
-            Execute Plan
-          </div>
-        </div>
-        
-        {/* Animated Cursor */}
-        <svg className="cursor-svg absolute top-0 left-0 w-6 h-6 z-10 drop-shadow-md" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M5.5 3.21V20.8C5.5 21.45 6.27 21.8 6.75 21.37L11.26 17.35C11.54 17.1 11.9 16.96 12.27 16.96H19.5C20.17 16.96 20.53 16.17 20.08 15.68L6.78 2.5C6.35 2.03 5.5 2.33 5.5 3.21Z" fill="#0D1B2A" stroke="white" strokeWidth="1.5"/>
-        </svg>
-      </div>
-    </div>
-  );
-};
+                    {/* Score Breakdown Card */}
+                    <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
+                      <div className="flex items-center justify-between mb-6">
+                        <h3 className="font-semibold text-navy text-sm uppercase tracking-wider">Audit Score Breakdown</h3>
+                        <span className="text-xs text-gray-500">0/4 levels good</span>
+                      </div>
+                      
+                      <div className="flex items-center gap-12">
+                        {/* Donut Chart Placeholder */}
+                        <div className="relative w-32 h-32 flex-shrink-0">
+                          <svg viewBox="0 0 100 100" className="w-full h-full transform -rotate-90">
+                            <circle cx="50" cy="50" r="40" fill="transparent" stroke="#f3f4f6" strokeWidth="12" />
+                            <circle cx="50" cy="50" r="40" fill="transparent" stroke="#ef4444" strokeWidth="12" strokeDasharray="251.2" strokeDashoffset="200.96" className="transition-all duration-1000" />
+                          </svg>
+                          <div className="absolute inset-0 flex flex-col items-center justify-center">
+                            <span className="text-3xl font-bold text-navy">80</span>
+                            <span className="text-xs text-gray-400 font-medium">of 400</span>
+                          </div>
+                        </div>
 
-const Features = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
+                        <div className="flex-1 space-y-4">
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-2">
+                              <div className="w-2 h-2 rounded-full bg-red-500"></div>
+                              <span className="text-sm text-gray-600">Product Presence</span>
+                            </div>
+                            <span className="text-sm font-bold text-red-500">0</span>
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-2">
+                              <div className="w-2 h-2 rounded-full bg-red-500"></div>
+                              <span className="text-sm text-gray-600">Product Relevance</span>
+                            </div>
+                            <span className="text-sm font-bold text-red-500">10</span>
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-2">
+                              <div className="w-2 h-2 rounded-full bg-red-500"></div>
+                              <span className="text-sm text-gray-600">Brand Authority</span>
+                            </div>
+                            <span className="text-sm font-bold text-red-500">45</span>
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-2">
+                              <div className="w-2 h-2 rounded-full bg-red-500"></div>
+                              <span className="text-sm text-gray-600">Purchase Readiness</span>
+                            </div>
+                            <span className="text-sm font-bold text-red-500">25</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
 
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.from('.feature-card', {
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: 'top 70%',
-        },
-        y: 60,
-        opacity: 0,
-        duration: 1,
-        stagger: 0.15,
-        ease: 'power3.out',
-      });
-    }, containerRef);
-    return () => ctx.revert();
-  }, []);
+                  {/* Right Column (Activity & Insights) */}
+                  <div className="space-y-6">
+                    {/* AI Assistant Activity */}
+                    <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
+                      <div className="flex items-center justify-between mb-6">
+                        <h3 className="font-semibold text-navy text-xs uppercase tracking-wider">Execute</h3>
+                        <span className="text-xs font-medium bg-gray-100 text-gray-600 px-2 py-1 rounded">Last 7 days</span>
+                      </div>
+                      <div className="flex items-center gap-2 mb-4">
+                        <Activity className="w-4 h-4 text-blue-600" />
+                        <h4 className="font-medium text-navy">AI Assistant Activity</h4>
+                      </div>
+                      
+                      <div className="flex items-center gap-6 mb-6">
+                        <div className="relative w-20 h-20">
+                          <svg viewBox="0 0 100 100" className="w-full h-full transform -rotate-90">
+                            <circle cx="50" cy="50" r="40" fill="transparent" stroke="#f3f4f6" strokeWidth="16" />
+                            <circle cx="50" cy="50" r="40" fill="transparent" stroke="#3b82f6" strokeWidth="16" strokeDasharray="251.2" strokeDashoffset="100" />
+                            <circle cx="50" cy="50" r="40" fill="transparent" stroke="#10b981" strokeWidth="16" strokeDasharray="251.2" strokeDashoffset="200" />
+                          </svg>
+                          <div className="absolute inset-0 flex items-center justify-center">
+                            <span className="text-lg font-bold text-navy">630</span>
+                          </div>
+                        </div>
+                        <div className="flex-1 grid grid-cols-2 gap-4">
+                          <div>
+                            <p className="text-xl font-bold text-navy">211</p>
+                            <p className="text-[10px] text-gray-500 uppercase tracking-wider">Citations</p>
+                            <p className="text-xs text-green-500 mt-1">+23%</p>
+                          </div>
+                          <div>
+                            <p className="text-xl font-bold text-navy">25</p>
+                            <p className="text-[10px] text-gray-500 uppercase tracking-wider">Purchases</p>
+                            <p className="text-xs text-green-500 mt-1">+45%</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
 
-  return (
-    <section id="features" ref={containerRef} className="py-32 px-6 bg-warm relative z-10">
-      <div className="max-w-6xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="feature-card h-[420px]">
-            <DiagnosticShuffler />
-          </div>
-          <div className="feature-card h-[420px]">
-            <TelemetryTypewriter />
-          </div>
-          <div className="feature-card h-[420px]">
-            <CursorProtocolScheduler />
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-};
+                    {/* Simulation Insights */}
+                    <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
+                      <div className="flex items-center justify-between mb-6">
+                        <h3 className="font-semibold text-navy text-xs uppercase tracking-wider">Simulate</h3>
+                        <span className="text-xs text-gray-400">Updated 5m ago</span>
+                      </div>
+                      <div className="flex items-center gap-2 mb-4">
+                        <Zap className="w-4 h-4 text-amber" />
+                        <h4 className="font-medium text-navy">Simulation Insights</h4>
+                      </div>
 
-// --- Philosophy ---
+                      <div className="bg-blue-50 border border-blue-100 rounded-lg p-4 mb-4">
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="text-xs font-bold text-blue-700 uppercase tracking-wider flex items-center gap-1"><Zap className="w-3 h-3"/> Top Opportunity</span>
+                          <span className="text-[10px] bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full font-medium">High confidence</span>
+                        </div>
+                        <h5 className="font-bold text-navy mb-3">Index 28 Missing Products</h5>
+                        
+                        <div className="bg-white rounded border border-blue-100 p-3 flex items-center justify-between mb-3">
+                          <div>
+                            <p className="text-[10px] text-gray-500 uppercase">Current</p>
+                            <p className="font-semibold text-navy text-sm">23% AI visibility</p>
+                          </div>
+                          <ChevronRight className="w-4 h-4 text-gray-400" />
+                          <div>
+                            <p className="text-[10px] text-gray-500 uppercase">Projected</p>
+                            <p className="font-semibold text-blue-600 text-sm">45% AI visibility</p>
+                          </div>
+                        </div>
 
-const Philosophy = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
+                        <div className="flex items-center justify-between">
+                          <span className="text-sm font-bold text-navy flex items-center gap-1">
+                            <ArrowUpRight className="w-4 h-4 text-blue-600" /> +$4.5K/mo <span className="text-xs font-normal text-gray-500">projected impact</span>
+                          </span>
+                          <button className="bg-blue-700 text-white text-xs font-medium px-3 py-1.5 rounded hover:bg-blue-800 transition-colors">Start</button>
+                        </div>
+                      </div>
 
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.from('.phil-text', {
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: 'top 60%',
-        },
-        y: 40,
-        opacity: 0,
-        duration: 1.2,
-        stagger: 0.2,
-        ease: 'power3.out',
-      });
-    }, containerRef);
-    return () => ctx.revert();
-  }, []);
+                      <div>
+                        <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Other Opportunities</p>
+                        <button className="w-full flex items-center justify-between p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+                          <span className="text-sm font-medium text-navy">Optimize Product Titles</span>
+                          <span className="text-xs text-blue-600 bg-blue-50 px-2 py-1 rounded">+18% clicks</span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
 
-  return (
-    <section id="philosophy" ref={containerRef} className="py-40 px-6 bg-navy relative overflow-hidden">
-      {/* Abstract background texture */}
-      <div className="absolute inset-0 opacity-10 mix-blend-overlay" style={{ backgroundImage: 'url("https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop")' }}></div>
-      
-      <div className="max-w-4xl mx-auto relative z-10 text-center">
-        <p className="phil-text text-warm/60 font-sans text-xl md:text-2xl mb-8 font-light tracking-wide">
-          Most SEO tools focus on: <span className="text-warm/40">traditional search engines.</span>
-        </p>
-        <h2 className="phil-text text-4xl md:text-6xl lg:text-7xl text-warm leading-[1.1]">
-          We focus on: <br />
-          <span className="font-serif italic text-amber">the LLMs answering questions about you.</span>
-        </h2>
-      </div>
-    </section>
-  );
-};
-
-// --- Protocol ---
-
-const ProtocolCard = ({ step, title, desc, index }: { step: string, title: string, desc: string, index: number }) => {
-  return (
-    <div className="protocol-card w-full h-[100vh] flex items-center justify-center sticky top-0" style={{ zIndex: index }}>
-      <div className="bg-warm-dark w-full max-w-5xl mx-6 rounded-[3rem] p-12 md:p-20 shadow-2xl border border-navy/5 flex flex-col md:flex-row items-center gap-16 relative overflow-hidden">
-        
-        {/* Content */}
-        <div className="flex-1 relative z-10">
-          <span className="font-mono text-amber text-lg font-bold mb-6 block">Phase {step}</span>
-          <h3 className="font-serif text-4xl md:text-5xl text-navy mb-6 leading-tight">{title}</h3>
-          <p className="text-navy/70 text-lg md:text-xl font-light leading-relaxed max-w-md">{desc}</p>
-        </div>
-
-        {/* Visuals based on index */}
-        <div className="flex-1 w-full flex justify-center relative z-10">
-          {index === 1 && (
-            <div className="w-64 h-64 relative">
-              <div className="absolute inset-0 border-2 border-navy/10 rounded-full animate-[spin_20s_linear_infinite]"></div>
-              <div className="absolute inset-8 border-2 border-amber/30 rounded-full animate-[spin_15s_linear_infinite_reverse]"></div>
-              <div className="absolute inset-16 border-2 border-navy/20 rounded-full animate-[spin_10s_linear_infinite]"></div>
-              <div className="absolute inset-0 flex items-center justify-center">
-                <Search className="w-12 h-12 text-navy/40" />
               </div>
             </div>
-          )}
-          {index === 2 && (
-            <div className="w-64 h-64 bg-white rounded-3xl border border-navy/10 relative overflow-hidden shadow-inner p-4 grid grid-cols-4 gap-2">
-              {Array.from({length: 16}).map((_, i) => (
-                <div key={i} className={`rounded-lg ${i % 3 === 0 ? 'bg-amber/20' : 'bg-navy/5'}`}></div>
-              ))}
-              <div className="absolute top-0 bottom-0 left-0 w-1 bg-amber shadow-[0_0_15px_rgba(232,168,56,0.8)] animate-[scan_3s_ease-in-out_infinite_alternate]"></div>
-            </div>
-          )}
-          {index === 3 && (
-            <div className="w-64 h-64 relative flex items-center justify-center">
-              <svg className="w-full h-full" viewBox="0 0 100 100">
-                <path 
-                  d="M0,50 L20,50 L30,20 L40,80 L50,50 L100,50" 
-                  fill="none" 
-                  stroke="#E8A838" 
-                  strokeWidth="2" 
-                  strokeDasharray="200"
-                  strokeDashoffset="200"
-                  className="animate-[dash_2s_linear_infinite]"
-                />
-              </svg>
-            </div>
-          )}
+          </div>
         </div>
+        
+        <p className="text-warm/60 text-center max-w-md font-light mt-8">
+          Every scan shows you exactly where you stand and what to fix first.
+        </p>
       </div>
-    </div>
+    </section>
   );
 };
 
-const Protocol = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      const cards = gsap.utils.toArray('.protocol-card') as HTMLElement[];
-      
-      cards.forEach((card: HTMLElement, i) => {
-        if (i === cards.length - 1) return; // Skip last card
-        
-        ScrollTrigger.create({
-          trigger: card,
-          start: 'top top',
-          endTrigger: '.protocol-container',
-          end: 'bottom bottom',
-          pin: true,
-          pinSpacing: false,
-        });
-
-        gsap.to(card.querySelector('.bg-warm-dark'), {
-          scale: 0.9,
-          opacity: 0.5,
-          filter: 'blur(10px)',
-          scrollTrigger: {
-            trigger: cards[i + 1],
-            start: 'top bottom',
-            end: 'top top',
-            scrub: true,
-          }
-        });
-      });
-    }, containerRef);
-    return () => ctx.revert();
-  }, []);
-
+const TheProblem = () => {
   return (
-    <section id="protocol" ref={containerRef} className="protocol-container bg-warm relative pb-32">
-      <ProtocolCard 
-        index={1}
-        step="01" 
-        title="Entity Extraction" 
-        desc="We query the major models to see if they recognize your brand as a distinct entity within your category." 
-      />
-      <ProtocolCard 
-        index={2}
-        step="02" 
-        title="Sentiment & Context" 
-        desc="We analyze the tone and accuracy of the information the models retrieve about you from their training data and live web access." 
-      />
-      <ProtocolCard 
-        index={3}
-        step="03" 
-        title="Actionable Roadmap" 
-        desc="We generate a prioritized list of digital PR and content updates to improve your visibility score." 
-      />
+    <section className="py-32 px-6 bg-warm relative z-10">
+      <div className="max-w-4xl mx-auto flex flex-col items-center">
+        <span className="font-mono text-xs text-amber uppercase tracking-widest mb-6 self-start md:self-center">The Problem</span>
+        <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl text-navy text-left md:text-center leading-[1.1] mb-16 max-w-2xl self-start md:self-center">
+          This is happening right now, thousands of times a day.
+        </h2>
+        
+        <div className="w-full max-w-3xl bg-white rounded-2xl shadow-xl border border-navy/5 overflow-hidden mb-16">
+          {/* Browser Header */}
+          <div className="bg-navy/5 px-4 py-3 flex items-center justify-center relative border-b border-navy/5">
+            <div className="absolute left-4 flex gap-1.5">
+              <div className="w-2.5 h-2.5 rounded-full bg-navy/20"></div>
+              <div className="w-2.5 h-2.5 rounded-full bg-navy/20"></div>
+              <div className="w-2.5 h-2.5 rounded-full bg-navy/20"></div>
+            </div>
+            <span className="font-mono text-xs text-navy/40">chatgpt.com</span>
+          </div>
+          
+          {/* Chat Content */}
+          <div className="p-6 md:p-10 flex flex-col gap-8">
+            {/* User Message */}
+            <div className="self-end bg-navy/5 rounded-2xl rounded-tr-sm px-6 py-4 max-w-[80%]">
+              <p className="text-navy font-sans text-sm md:text-base">What are the best sustainable fashion brands?</p>
+            </div>
+            
+            {/* AI Message */}
+            <div className="flex gap-4">
+              <div className="w-8 h-8 rounded-full bg-navy flex items-center justify-center shrink-0 mt-1">
+                <span className="text-white text-xs font-mono">AI</span>
+              </div>
+              <div className="text-navy/80 font-sans text-sm md:text-base leading-relaxed space-y-4">
+                <p>Here are some of the most recognized sustainable fashion brands:</p>
+                <ol className="list-decimal pl-4 space-y-2">
+                  <li><span className="font-bold text-navy">Patagonia:</span> A pioneer in environmental responsibility, known for outerwear and transparent supply chains.</li>
+                  <li><span className="font-bold text-navy">Stella McCartney:</span> Luxury fashion committed to cruelty-free practices.</li>
+                  <li><span className="font-bold text-navy">Eileen Fisher:</span> Focuses on circular design and organic materials.</li>
+                  <li><span className="font-bold text-navy">Reformation:</span> Tracks the environmental footprint of every item.</li>
+                  <li><span className="font-bold text-navy">Veja:</span> Transparently made sneakers using wild rubber and organic cotton.</li>
+                </ol>
+                <div className="pl-4 border-l-2 border-navy/10 mt-4">
+                  <p className="italic text-navy/40">6. Your brand?</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <p className="text-navy/80 text-center text-lg max-w-xl">
+          AI recommends brands based on what it knows. <span className="font-bold text-navy">Lumen makes sure it knows yours.</span>
+        </p>
+      </div>
+    </section>
+  );
+};
+
+const HowItWorks = () => {
+  return (
+    <section className="py-32 px-6 bg-warm relative z-10">
+      <div className="max-w-3xl mx-auto">
+        <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl text-navy text-center mb-24">
+          How it works
+        </h2>
+        
+        <div className="space-y-16 relative">
+          {/* Connecting Line */}
+          <div className="absolute left-[19px] top-10 bottom-10 w-px bg-navy/10"></div>
+          
+          {/* Step 1 */}
+          <div className="flex gap-8 relative z-10">
+            <div className="w-10 h-10 rounded-full bg-navy text-warm flex items-center justify-center shrink-0 font-serif text-xl">1</div>
+            <div>
+              <h3 className="text-xl font-bold text-navy mb-3">Enter your brand</h3>
+              <p className="text-navy/70 leading-relaxed mb-4">
+                Type your brand name or website URL. No account needed, no setup, no analytics access required.
+              </p>
+              <span className="font-mono text-xs text-amber uppercase tracking-wider">5 seconds</span>
+            </div>
+          </div>
+          
+          {/* Step 2 */}
+          <div className="flex gap-8 relative z-10">
+            <div className="w-10 h-10 rounded-full bg-navy text-warm flex items-center justify-center shrink-0 font-serif text-xl">2</div>
+            <div>
+              <h3 className="text-xl font-bold text-navy mb-3">We query four AI search engines</h3>
+              <p className="text-navy/70 leading-relaxed mb-4">
+                Our engine runs structured queries across ChatGPT, Claude, Gemini, and Perplexity in your category. We measure mentions, rankings, sentiment, and citations.
+              </p>
+              <span className="font-mono text-xs text-amber uppercase tracking-wider">About 60 seconds</span>
+            </div>
+          </div>
+          
+          {/* Step 3 */}
+          <div className="flex gap-8 relative z-10">
+            <div className="w-10 h-10 rounded-full bg-navy text-warm flex items-center justify-center shrink-0 font-serif text-xl">3</div>
+            <div>
+              <h3 className="text-xl font-bold text-navy mb-3">See your score and what to fix</h3>
+              <p className="text-navy/70 leading-relaxed mb-4">
+                Get your AI Visibility Score with a platform-by-platform breakdown, a diagnosis of why you score the way you do, and prioritized recommendations ranked by impact.
+              </p>
+              <span className="font-mono text-xs text-amber uppercase tracking-wider">Your first insight in under 2 minutes</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const Testimonial = () => {
+  return (
+    <section className="py-32 px-6 bg-navy relative z-10">
+      <div className="max-w-4xl mx-auto flex flex-col items-center text-center">
+        <p className="font-sans text-2xl md:text-3xl text-warm/90 leading-relaxed font-light mb-8 max-w-3xl">
+          "We spent a decade optimizing for Google, but when we asked AI for recommendations in our category, we simply did not exist. Lumen showed us exactly which models were ignoring us and gave us a step-by-step plan to fix it. Within two months, our visibility score doubled."
+        </p>
+        <span className="font-mono text-sm text-amber mb-24">Marketing Lead, Mid-size Fashion Brand</span>
+        
+        <div className="flex flex-col md:flex-row items-center justify-center gap-12 md:gap-24 w-full">
+          <div className="flex flex-col items-center">
+            <span className="font-serif text-5xl text-warm mb-3">4</span>
+            <span className="font-mono text-xs text-warm/50 uppercase tracking-widest">AI Engines</span>
+          </div>
+          <div className="hidden md:block w-px h-16 bg-warm/10"></div>
+          <div className="flex flex-col items-center">
+            <span className="font-serif text-5xl text-warm mb-3">20</span>
+            <span className="font-mono text-xs text-warm/50 uppercase tracking-widest">Queries per scan</span>
+          </div>
+          <div className="hidden md:block w-px h-16 bg-warm/10"></div>
+          <div className="flex flex-col items-center">
+            <span className="font-serif text-5xl text-warm mb-3">7</span>
+            <span className="font-mono text-xs text-warm/50 uppercase tracking-widest">Diagnostic factors</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const PreFooterCTA = () => {
+  return (
+    <section className="py-32 px-6 bg-warm relative z-10">
+      <div className="max-w-2xl mx-auto flex flex-col items-center text-center">
+        <h2 className="font-serif text-5xl md:text-6xl text-navy leading-[1.1] mb-4">
+          Your brand has an AI reputation.
+        </h2>
+        <p className="text-xl text-navy/70 mb-12">
+          Do you know what it is?
+        </p>
+        
+        <div className="flex flex-col sm:flex-row items-center gap-4 w-full max-w-xl mb-6">
+          <div className="relative w-full flex-1">
+            <input 
+              type="text" 
+              placeholder="Your brand name or website URL" 
+              className="w-full bg-white border border-navy/10 rounded-xl py-4 px-6 text-navy placeholder:text-navy/40 focus:outline-none focus:ring-2 focus:ring-amber/50 focus:border-amber transition-all shadow-sm text-base"
+            />
+          </div>
+          <button className="btn-magnetic w-full sm:w-auto bg-amber text-navy px-8 py-4 rounded-xl font-medium flex items-center justify-center gap-2 shadow-md whitespace-nowrap text-base">
+            <span>Check my brand</span>
+          </button>
+        </div>
+        <p className="text-xs font-mono text-navy/50 mb-20">Takes 60 seconds. No account required.</p>
+
+        {/* Coming Soon Callout */}
+        <div className="w-full max-w-xl bg-white/50 border border-navy/5 rounded-2xl p-6 md:p-8 backdrop-blur-sm relative overflow-hidden group">
+          <div className="absolute inset-0 bg-gradient-to-br from-amber/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+          <div className="relative z-10 flex flex-col items-center text-center">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber/10 text-amber text-xs font-bold uppercase tracking-wider mb-4">
+              <Sparkles className="w-3 h-3" />
+              Coming Soon
+            </div>
+            <h3 className="text-xl font-serif text-navy mb-2">UCP + ACP Connectivity</h3>
+            <p className="text-navy/60 text-sm leading-relaxed max-w-md">
+              Don't just be visible—be purchasable. Soon, you'll be able to connect your catalog directly to AI agents, turning recommendations into instant transactions.
+            </p>
+          </div>
+        </div>
+      </div>
     </section>
   );
 };
@@ -900,9 +1024,11 @@ export default function App() {
       <Navbar />
       <main>
         <Hero />
-        <Features />
-        <Philosophy />
-        <Protocol />
+        <ScanPreview />
+        <TheProblem />
+        <HowItWorks />
+        <Testimonial />
+        <PreFooterCTA />
       </main>
       <Footer />
       

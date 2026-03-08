@@ -11,6 +11,13 @@
   --color-amber: #E8A838;
   --color-navy-light: #1A2E44;
   --color-warm-dark: #EAE6DD;
+
+  --animate-shimmer: shimmer 3s infinite;
+
+  @keyframes shimmer {
+    0% { transform: translateX(-100%) skewX(12deg); }
+    100% { transform: translateX(200%) skewX(12deg); }
+  }
 }
 
 @layer base {
