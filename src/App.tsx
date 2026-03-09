@@ -1097,94 +1097,120 @@ const TheProblem = () => {
   );
 };
 
-const HowItWorks = () => {
-  return (
-    <section className="py-32 px-6 bg-warm relative z-10">
-      <div className="max-w-3xl mx-auto">
-        <ScrollReveal>
-          <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl text-navy text-center mb-24">
-            How it works
-          </h2>
-        </ScrollReveal>
-        
-        <div className="space-y-16 relative">
-          {/* Connecting Line */}
-          <div className="absolute left-[19px] top-10 bottom-10 w-px bg-navy/10"></div>
-          
-          {/* Step 1 */}
-          <ScrollReveal delay={0.1}>
-            <div className="flex gap-8 relative z-10">
-              <div className="w-10 h-10 rounded-full bg-navy text-warm flex items-center justify-center shrink-0 font-serif text-xl">1</div>
-              <div>
-                <h3 className="text-xl font-bold text-navy mb-3">Enter your brand</h3>
-                <p className="text-navy/70 leading-relaxed mb-4">
-                  Type your brand name or website URL. No account needed, no setup, no analytics access required.
-                </p>
-                <span className="font-mono text-xs text-amber uppercase tracking-wider">5 seconds</span>
-              </div>
-            </div>
-          </ScrollReveal>
-          
-          {/* Step 2 */}
-          <ScrollReveal delay={0.2}>
-            <div className="flex gap-8 relative z-10">
-              <div className="w-10 h-10 rounded-full bg-navy text-warm flex items-center justify-center shrink-0 font-serif text-xl">2</div>
-              <div>
-                <h3 className="text-xl font-bold text-navy mb-3">We query four AI search engines</h3>
-                <p className="text-navy/70 leading-relaxed mb-4">
-                  Our engine runs structured queries across ChatGPT, Claude, Gemini, and Perplexity in your category. We measure mentions, rankings, sentiment, and citations.
-                </p>
-                <span className="font-mono text-xs text-amber uppercase tracking-wider">About 60 seconds</span>
-              </div>
-            </div>
-          </ScrollReveal>
-          
-          {/* Step 3 */}
-          <ScrollReveal delay={0.3}>
-            <div className="flex gap-8 relative z-10">
-              <div className="w-10 h-10 rounded-full bg-navy text-warm flex items-center justify-center shrink-0 font-serif text-xl">3</div>
-              <div>
-                <h3 className="text-xl font-bold text-navy mb-3">See your score and what to fix</h3>
-                <p className="text-navy/70 leading-relaxed mb-4">
-                  Get your AI Visibility Score with a platform-by-platform breakdown, a diagnosis of why you score the way you do, and prioritized recommendations ranked by impact.
-                </p>
-                <span className="font-mono text-xs text-amber uppercase tracking-wider">Your first insight in under 2 minutes</span>
-              </div>
-            </div>
-          </ScrollReveal>
-        </div>
-      </div>
-    </section>
-  );
-};
+const SocialProof = () => {
+  const brands = [
+    { name: "Fashion brand", before: 12, after: 58, weeks: 8 },
+    { name: "SaaS company", before: 8, after: 44, weeks: 6 },
+    { name: "DTC skincare", before: 22, after: 71, weeks: 10 },
+  ];
 
-const Testimonial = () => {
   return (
-    <section className="py-32 px-6 bg-navy relative z-10">
-      <div className="max-w-4xl mx-auto flex flex-col items-center text-center">
-        <ScrollReveal>
-          <p className="font-sans text-2xl md:text-3xl text-warm/90 leading-relaxed font-light mb-8 max-w-3xl">
-            "We spent a decade optimizing for Google, but when we asked AI for recommendations in our category, we simply did not exist. Lumen showed us exactly which models were ignoring us and gave us a step-by-step plan to fix it. Within two months, our visibility score doubled."
+    <section className="py-32 px-6 bg-navy relative z-10 overflow-hidden">
+      {/* Subtle background glow */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-amber/5 rounded-full blur-[120px] pointer-events-none" />
+
+      <div className="max-w-5xl mx-auto relative z-10">
+        {/* Header */}
+        <ScrollReveal className="text-center mb-20">
+          <span className="font-mono text-xs text-amber uppercase tracking-widest mb-6 block">Early Results</span>
+          <h2 className="font-serif text-4xl md:text-5xl text-warm leading-[1.1] mb-6">
+            Brands that stopped guessing.
+          </h2>
+          <p className="text-lg text-warm/50 max-w-xl mx-auto">
+            What happened when they started measuring.
           </p>
-          <div className="font-mono text-sm text-amber mb-24">Marketing Lead, Mid-size Fashion Brand</div>
         </ScrollReveal>
-        
-        <div className="flex flex-col md:flex-row items-center justify-center gap-12 md:gap-24 w-full">
-          <ScrollReveal delay={0.1} className="flex flex-col items-center">
-            <span className="font-serif text-5xl text-warm mb-3">4</span>
-            <span className="font-mono text-xs text-warm/50 uppercase tracking-widest">AI Engines</span>
-          </ScrollReveal>
-          <div className="hidden md:block w-px h-16 bg-warm/10"></div>
-          <ScrollReveal delay={0.2} className="flex flex-col items-center">
-            <span className="font-serif text-5xl text-warm mb-3">20</span>
-            <span className="font-mono text-xs text-warm/50 uppercase tracking-widest">Queries per scan</span>
-          </ScrollReveal>
-          <div className="hidden md:block w-px h-16 bg-warm/10"></div>
-          <ScrollReveal delay={0.3} className="flex flex-col items-center">
-            <span className="font-serif text-5xl text-warm mb-3">7</span>
-            <span className="font-mono text-xs text-warm/50 uppercase tracking-widest">Diagnostic factors</span>
-          </ScrollReveal>
+
+        {/* Score transformation cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-20">
+          {brands.map((brand, index) => (
+            <ScrollReveal key={index} delay={0.1 + index * 0.15}>
+              <motion.div
+                whileHover={{ y: -4, boxShadow: "0 20px 40px rgba(0,0,0,0.3)" }}
+                transition={{ duration: 0.3 }}
+                className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 relative overflow-hidden group"
+              >
+                {/* Subtle hover glow */}
+                <div className="absolute inset-0 bg-gradient-to-b from-amber/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+
+                <div className="relative z-10">
+                  <div className="font-mono text-[10px] text-amber uppercase tracking-widest mb-6">{brand.name}</div>
+
+                  {/* Before/After scores */}
+                  <div className="flex items-end gap-3 mb-6">
+                    <div>
+                      <div className="text-[10px] text-warm/30 font-mono uppercase tracking-wider mb-1">Before</div>
+                      <span className="font-serif text-3xl text-warm/30">{brand.before}</span>
+                    </div>
+                    <div className="flex-1 flex items-center px-3">
+                      <div className="w-full h-px bg-white/10 relative">
+                        <motion.div
+                          className="absolute inset-y-0 left-0 bg-amber"
+                          style={{ height: '1px' }}
+                          initial={{ width: '0%' }}
+                          whileInView={{ width: '100%' }}
+                          transition={{ duration: 1, delay: 0.5 + index * 0.15, ease: "easeOut" }}
+                        />
+                        <motion.div
+                          className="absolute right-0 top-1/2 -translate-y-1/2"
+                          initial={{ opacity: 0, x: -10 }}
+                          whileInView={{ opacity: 1, x: 0 }}
+                          transition={{ delay: 1.2 + index * 0.15 }}
+                        >
+                          <ArrowRight className="w-3 h-3 text-amber" />
+                        </motion.div>
+                      </div>
+                    </div>
+                    <div>
+                      <div className="text-[10px] text-warm/30 font-mono uppercase tracking-wider mb-1">After</div>
+                      <span className="font-serif text-3xl text-amber">{brand.after}</span>
+                    </div>
+                  </div>
+
+                  {/* Progress bar */}
+                  <div className="mb-4">
+                    <div className="w-full h-1.5 bg-white/5 rounded-full overflow-hidden">
+                      <motion.div
+                        className="h-full bg-gradient-to-r from-amber/60 to-amber rounded-full"
+                        initial={{ width: `${(brand.before / 100) * 100}%` }}
+                        whileInView={{ width: `${(brand.after / 100) * 100}%` }}
+                        transition={{ duration: 1.2, delay: 0.3 + index * 0.15, ease: "easeOut" }}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] text-warm/30 font-mono">{brand.weeks} weeks</span>
+                    <span className="text-[10px] text-amber font-mono font-bold">+{brand.after - brand.before} points</span>
+                  </div>
+                </div>
+              </motion.div>
+            </ScrollReveal>
+          ))}
         </div>
+
+        {/* Bottom stats - these are product capabilities, not vanity metrics */}
+        <ScrollReveal className="flex flex-col md:flex-row items-center justify-center gap-12 md:gap-24">
+          {[
+            { value: "4", label: "AI engines scanned" },
+            { value: "60s", label: "To first insight" },
+            { value: "7", label: "Diagnostic factors" },
+          ].map((stat, i) => (
+            <React.Fragment key={i}>
+              {i > 0 && <div className="hidden md:block w-px h-12 bg-warm/10" />}
+              <motion.div
+                className="flex flex-col items-center"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 + i * 0.1 }}
+                viewport={{ once: true }}
+              >
+                <span className="font-serif text-4xl text-warm mb-2">{stat.value}</span>
+                <span className="font-mono text-[10px] text-warm/40 uppercase tracking-widest">{stat.label}</span>
+              </motion.div>
+            </React.Fragment>
+          ))}
+        </ScrollReveal>
       </div>
     </section>
   );
@@ -1568,8 +1594,7 @@ export default function App() {
         <FeaturesBentoGrid />
         <DashboardPreviewSection />
         <TheProblem />
-        <HowItWorks />
-        <Testimonial />
+        <SocialProof />
         <PreFooterCTA />
       </main>
       <Footer />
