@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useRef } from "react";
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, AnimatePresence, Variants } from "motion/react";
+import Logo from "./Logo";
 import {
   Search,
   BarChart2,
@@ -21,25 +22,50 @@ const ScrollReveal = ({
   children,
   delay = 0,
   className = "",
+  staggerChildren = 0,
 }: {
   children: React.ReactNode;
   delay?: number;
   className?: string;
+  staggerChildren?: number;
 }) => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-80px" });
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 30 }}
-      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-      transition={{ duration: 0.6, delay, ease: [0.21, 0.47, 0.32, 0.98] }}
+      initial="hidden"
+      animate={isInView ? "visible" : "hidden"}
+      variants={{
+        hidden: { opacity: 0, y: 40, scale: 0.98 },
+        visible: {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          transition: {
+            duration: 0.8,
+            delay,
+            ease: [0.16, 1, 0.3, 1],
+            staggerChildren: staggerChildren,
+            delayChildren: delay,
+          },
+        },
+      }}
       className={className}
     >
       {children}
     </motion.div>
   );
+};
+
+const itemVariants: Variants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: "easeOut" },
+  },
 };
 
 // --- Mockup Components ---
@@ -142,9 +168,7 @@ const VisibilityScoreMockup = () => (
             <span className="font-serif text-3xl font-bold text-[#0D1B2A]">
               34
             </span>
-            <span className="text-[8px] font-mono text-[#415A77] uppercase tracking-tighter">
-              Lumen Score
-            </span>
+            <Logo size="text-[8px]" dotColor="bg-[#415A77]" textColor="text-[#415A77]" className="uppercase tracking-tighter" />
           </div>
         </div>
         <div className="w-full space-y-3">
@@ -321,7 +345,7 @@ const ExportReportMockup = () => (
             <div className="text-[8px] font-mono text-[#415A77] uppercase">
               Final Audit
             </div>
-            <div className="text-xl font-serif text-[#0D1B2A]">Lumen_Q4</div>
+            <Logo size="text-xl" />
           </div>
           <CheckCircle2 className="w-5 h-5 text-[#2D6A4F]" />
         </div>
@@ -411,20 +435,30 @@ export default function FeaturesBentoGrid() {
           {features.map((feature, index) => (
             <ScrollReveal
               key={index}
-              delay={index * 0.1}
+              delay={0.1 + (index % 3) * 0.1}
+              staggerChildren={0.1}
               className={`h-full ${feature.colSpan}`}
             >
-              <div className="bg-white border border-[#F0EDE6] rounded-[24px] p-8 md:p-10 hover:shadow-xl hover:shadow-[#0D1B2A]/5 transition-all duration-500 flex flex-col h-full group overflow-hidden">
-                <div className="mb-8">
-                  <h3 className="text-xl font-semibold text-[#0D1B2A] mb-3">
+              <motion.div 
+                whileHover={{ y: -8, boxShadow: "0 20px 40px rgba(13,27,42,0.08)" }}
+                transition={{ duration: 0.4, ease: "easeOut" }}
+                className="bg-white border border-[#F0EDE6] rounded-[32px] p-8 md:p-10 hover:border-[#E8A838]/30 transition-colors duration-500 flex flex-col h-full group overflow-hidden relative"
+              >
+                {/* Subtle background glow on hover */}
+                <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-[#E8A838]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
+                <motion.div variants={itemVariants} className="mb-8 relative z-10">
+                  <h3 className="text-xl md:text-2xl font-semibold text-[#0D1B2A] mb-3 tracking-tight">
                     {feature.title}
                   </h3>
-                  <p className="text-[#415A77] text-sm leading-relaxed max-w-md">
+                  <p className="text-[#415A77] text-sm md:text-base leading-relaxed max-w-md font-light">
                     {feature.description}
                   </p>
-                </div>
+                </motion.div>
 
-                <div className="mt-auto flex-1 bg-[#F8F6F1]/50 rounded-2xl border border-[#F0EDE6]/50 p-6 relative overflow-hidden flex items-center justify-center min-h-[280px]">
+                <motion.div 
+                  variants={itemVariants}
+                  className="mt-auto flex-1 bg-[#F8F6F1]/50 rounded-2xl border border-[#F0EDE6]/50 p-6 relative overflow-hidden flex items-center justify-center min-h-[300px]"
+                >
                   {/* Subtle noise overlay for the mockup container */}
                   <div
                     className="absolute inset-0 opacity-[0.03] pointer-events-none"
@@ -434,11 +468,11 @@ export default function FeaturesBentoGrid() {
                     }}
                   ></div>
 
-                  <div className="relative z-10 w-full flex justify-center transition-all duration-700 group-hover:scale-[1.05] group-hover:translate-y-[-4px]">
+                  <div className="relative z-10 w-full flex justify-center transition-all duration-700 group-hover:scale-[1.03] group-hover:translate-y-[-4px]">
                     {feature.mockup}
                   </div>
-                </div>
-              </div>
+                </motion.div>
+              </motion.div>
             </ScrollReveal>
           ))}
         </div>

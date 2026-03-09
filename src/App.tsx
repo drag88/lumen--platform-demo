@@ -2,8 +2,9 @@ import React, { useEffect, useRef, useState } from 'react';
 import { ArrowRight, Search, Activity, Zap, CheckCircle2, ChevronRight, BarChart3, Target, Compass, Sparkles, Box, Tag, Award, History, FileText, ShieldCheck, Send, Settings, Bell, User, ArrowUpRight, Eye, Bot, PlayCircle } from 'lucide-react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion, AnimatePresence, Variants } from 'motion/react';
 import FeaturesBentoGrid from './components/FeaturesBentoGrid';
+import Logo from './components/Logo';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -25,12 +26,7 @@ const Navbar = () => {
         {/* Shine effect */}
         <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/40 to-transparent animate-[shimmer_3s_infinite] skew-x-12 pointer-events-none"></div>
 
-        <div className="flex items-center gap-2 px-4 shrink-0">
-          <div className="w-6 h-6 rounded-full bg-amber flex items-center justify-center">
-            <div className="w-2 h-2 rounded-full bg-navy"></div>
-          </div>
-          <span className="font-serif text-lg font-bold tracking-tight text-navy">Lumen</span>
-        </div>
+        <Logo className="px-4 shrink-0" />
 
         <div className="flex items-center justify-end flex-1 overflow-hidden pr-2">
           <AnimatePresence>
@@ -309,7 +305,8 @@ const ScenarioView = ({ scenario }: { scenario: typeof SCENARIOS[0] }) => {
 
           <div className="flex items-center justify-center gap-2 mb-3 md:mb-4 relative z-10">
             <Activity className="w-4 h-4 md:w-5 md:h-5 text-amber" />
-            <span className="text-[10px] md:text-xs font-mono text-white/60 uppercase tracking-wider">Lumen Aggregated Score</span>
+            <Logo size="text-[10px] md:text-xs" textColor="text-white/60" dotColor="bg-white/40" className="uppercase tracking-wider" />
+            <span className="text-[10px] md:text-xs font-mono text-white/60 uppercase tracking-wider ml-[-4px]">Aggregated Score</span>
           </div>
           
           <div className="flex items-center justify-center gap-6 mb-4 md:mb-6 relative z-10">
@@ -484,58 +481,132 @@ const Hero = () => {
 
 // --- New Sections ---
 
+const ScrollReveal = ({ children, delay = 0, className = "", staggerChildren = 0 }: { children: React.ReactNode, delay?: number, className?: string, staggerChildren?: number }) => {
+  const variants: Variants = {
+    hidden: { opacity: 0, y: 40 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.8,
+        delay,
+        ease: [0.16, 1, 0.3, 1],
+        staggerChildren: staggerChildren,
+        delayChildren: delay
+      }
+    }
+  };
+
+  return (
+    <motion.div
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: "-100px" }}
+      variants={variants}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+};
+
+const itemVariants: Variants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] }
+  }
+};
+
 const TheProblem = () => {
   return (
     <section className="py-32 px-6 bg-warm relative z-10">
       <div className="max-w-4xl mx-auto flex flex-col items-center">
-        <span className="font-mono text-xs text-amber uppercase tracking-widest mb-6 self-start md:self-center">The Problem</span>
-        <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl text-navy text-left md:text-center leading-[1.1] mb-16 max-w-2xl self-start md:self-center">
-          This is happening right now, thousands of times a day.
-        </h2>
+        <ScrollReveal className="w-full flex flex-col items-center">
+          <span className="font-mono text-xs text-amber uppercase tracking-widest mb-6 self-start md:self-center">The Problem</span>
+          <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl text-navy text-left md:text-center leading-[1.1] mb-16 max-w-2xl self-start md:self-center">
+            This is happening right now, thousands of times a day.
+          </h2>
+        </ScrollReveal>
         
-        <div className="w-full max-w-3xl bg-white rounded-2xl shadow-xl border border-navy/5 overflow-hidden mb-16">
-          {/* Browser Header */}
-          <div className="bg-navy/5 px-4 py-3 flex items-center justify-center relative border-b border-navy/5">
-            <div className="absolute left-4 flex gap-1.5">
-              <div className="w-2.5 h-2.5 rounded-full bg-navy/20"></div>
-              <div className="w-2.5 h-2.5 rounded-full bg-navy/20"></div>
-              <div className="w-2.5 h-2.5 rounded-full bg-navy/20"></div>
-            </div>
-            <span className="font-mono text-xs text-navy/40">chatgpt.com</span>
-          </div>
-          
-          {/* Chat Content */}
-          <div className="p-6 md:p-10 flex flex-col gap-8">
-            {/* User Message */}
-            <div className="self-end bg-navy/5 rounded-2xl rounded-tr-sm px-6 py-4 max-w-[80%]">
-              <p className="text-navy font-sans text-sm md:text-base">What are the best sustainable fashion brands?</p>
+        <ScrollReveal delay={0.2} className="w-full max-w-3xl">
+          <div className="bg-white rounded-2xl shadow-xl border border-navy/5 overflow-hidden mb-16">
+            {/* Browser Header */}
+            <div className="bg-navy/5 px-4 py-3 flex items-center justify-center relative border-b border-navy/5">
+              <div className="absolute left-4 flex gap-1.5">
+                <div className="w-2.5 h-2.5 rounded-full bg-navy/20"></div>
+                <div className="w-2.5 h-2.5 rounded-full bg-navy/20"></div>
+                <div className="w-2.5 h-2.5 rounded-full bg-navy/20"></div>
+              </div>
+              <span className="font-mono text-xs text-navy/40">chatgpt.com</span>
             </div>
             
-            {/* AI Message */}
-            <div className="flex gap-4">
-              <div className="w-8 h-8 rounded-full bg-navy flex items-center justify-center shrink-0 mt-1">
-                <span className="text-white text-xs font-mono">AI</span>
-              </div>
-              <div className="text-navy/80 font-sans text-sm md:text-base leading-relaxed space-y-4">
-                <p>Here are some of the most recognized sustainable fashion brands:</p>
-                <ol className="list-decimal pl-4 space-y-2">
-                  <li><span className="font-bold text-navy">Patagonia:</span> A pioneer in environmental responsibility, known for outerwear and transparent supply chains.</li>
-                  <li><span className="font-bold text-navy">Stella McCartney:</span> Luxury fashion committed to cruelty-free practices.</li>
-                  <li><span className="font-bold text-navy">Eileen Fisher:</span> Focuses on circular design and organic materials.</li>
-                  <li><span className="font-bold text-navy">Reformation:</span> Tracks the environmental footprint of every item.</li>
-                  <li><span className="font-bold text-navy">Veja:</span> Transparently made sneakers using wild rubber and organic cotton.</li>
-                </ol>
-                <div className="pl-4 border-l-2 border-navy/10 mt-4">
-                  <p className="italic text-navy/40">6. Your brand?</p>
+            {/* Chat Content */}
+            <div className="p-6 md:p-10 flex flex-col gap-8">
+              {/* User Message */}
+              <motion.div 
+                initial={{ opacity: 0, x: 20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.4 }}
+                className="self-end bg-navy/5 rounded-2xl rounded-tr-sm px-6 py-4 max-w-[80%]"
+              >
+                <p className="text-navy font-sans text-sm md:text-base">What are the best sustainable fashion brands?</p>
+              </motion.div>
+              
+              {/* AI Message */}
+              <motion.div 
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 1.2 }}
+                className="flex gap-4"
+              >
+                <div className="w-8 h-8 rounded-full bg-navy flex items-center justify-center shrink-0 mt-1">
+                  <span className="text-white text-xs font-mono">AI</span>
                 </div>
-              </div>
+                <div className="text-navy/80 font-sans text-sm md:text-base leading-relaxed space-y-4">
+                  <p>Here are some of the most recognized sustainable fashion brands:</p>
+                  <ol className="list-decimal pl-4 space-y-2">
+                    {[
+                      { name: "Patagonia", desc: "A pioneer in environmental responsibility, known for outerwear and transparent supply chains." },
+                      { name: "Stella McCartney", desc: "Luxury fashion committed to cruelty-free practices." },
+                      { name: "Eileen Fisher", desc: "Focuses on circular design and organic materials." },
+                      { name: "Reformation", desc: "Tracks the environmental footprint of every item." },
+                      { name: "Veja", desc: "Transparently made sneakers using wild rubber and organic cotton." }
+                    ].map((brand, i) => (
+                      <motion.li 
+                        key={i}
+                        initial={{ opacity: 0, y: 10 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.4, delay: 1.8 + i * 0.2 }}
+                      >
+                        <span className="font-bold text-navy">{brand.name}:</span> {brand.desc}
+                      </motion.li>
+                    ))}
+                  </ol>
+                  <motion.div 
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.8, delay: 3.2 }}
+                    className="pl-4 border-l-2 border-navy/10 mt-4"
+                  >
+                    <p className="italic text-navy/40">6. Your brand?</p>
+                  </motion.div>
+                </div>
+              </motion.div>
             </div>
           </div>
-        </div>
+        </ScrollReveal>
         
-        <p className="text-navy/80 text-center text-lg max-w-xl">
-          AI recommends brands based on what it knows. <span className="font-bold text-navy">Lumen makes sure it knows yours.</span>
-        </p>
+        <ScrollReveal delay={0.4}>
+          <p className="text-navy/80 text-center text-lg max-w-xl">
+            AI recommends brands based on what it knows. <span className="font-bold text-navy">Lumen makes sure it knows yours.</span>
+          </p>
+        </ScrollReveal>
       </div>
     </section>
   );
@@ -545,49 +616,57 @@ const HowItWorks = () => {
   return (
     <section className="py-32 px-6 bg-warm relative z-10">
       <div className="max-w-3xl mx-auto">
-        <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl text-navy text-center mb-24">
-          How it works
-        </h2>
+        <ScrollReveal>
+          <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl text-navy text-center mb-24">
+            How it works
+          </h2>
+        </ScrollReveal>
         
         <div className="space-y-16 relative">
           {/* Connecting Line */}
           <div className="absolute left-[19px] top-10 bottom-10 w-px bg-navy/10"></div>
           
           {/* Step 1 */}
-          <div className="flex gap-8 relative z-10">
-            <div className="w-10 h-10 rounded-full bg-navy text-warm flex items-center justify-center shrink-0 font-serif text-xl">1</div>
-            <div>
-              <h3 className="text-xl font-bold text-navy mb-3">Enter your brand</h3>
-              <p className="text-navy/70 leading-relaxed mb-4">
-                Type your brand name or website URL. No account needed, no setup, no analytics access required.
-              </p>
-              <span className="font-mono text-xs text-amber uppercase tracking-wider">5 seconds</span>
+          <ScrollReveal delay={0.1}>
+            <div className="flex gap-8 relative z-10">
+              <div className="w-10 h-10 rounded-full bg-navy text-warm flex items-center justify-center shrink-0 font-serif text-xl">1</div>
+              <div>
+                <h3 className="text-xl font-bold text-navy mb-3">Enter your brand</h3>
+                <p className="text-navy/70 leading-relaxed mb-4">
+                  Type your brand name or website URL. No account needed, no setup, no analytics access required.
+                </p>
+                <span className="font-mono text-xs text-amber uppercase tracking-wider">5 seconds</span>
+              </div>
             </div>
-          </div>
+          </ScrollReveal>
           
           {/* Step 2 */}
-          <div className="flex gap-8 relative z-10">
-            <div className="w-10 h-10 rounded-full bg-navy text-warm flex items-center justify-center shrink-0 font-serif text-xl">2</div>
-            <div>
-              <h3 className="text-xl font-bold text-navy mb-3">We query four AI search engines</h3>
-              <p className="text-navy/70 leading-relaxed mb-4">
-                Our engine runs structured queries across ChatGPT, Claude, Gemini, and Perplexity in your category. We measure mentions, rankings, sentiment, and citations.
-              </p>
-              <span className="font-mono text-xs text-amber uppercase tracking-wider">About 60 seconds</span>
+          <ScrollReveal delay={0.2}>
+            <div className="flex gap-8 relative z-10">
+              <div className="w-10 h-10 rounded-full bg-navy text-warm flex items-center justify-center shrink-0 font-serif text-xl">2</div>
+              <div>
+                <h3 className="text-xl font-bold text-navy mb-3">We query four AI search engines</h3>
+                <p className="text-navy/70 leading-relaxed mb-4">
+                  Our engine runs structured queries across ChatGPT, Claude, Gemini, and Perplexity in your category. We measure mentions, rankings, sentiment, and citations.
+                </p>
+                <span className="font-mono text-xs text-amber uppercase tracking-wider">About 60 seconds</span>
+              </div>
             </div>
-          </div>
+          </ScrollReveal>
           
           {/* Step 3 */}
-          <div className="flex gap-8 relative z-10">
-            <div className="w-10 h-10 rounded-full bg-navy text-warm flex items-center justify-center shrink-0 font-serif text-xl">3</div>
-            <div>
-              <h3 className="text-xl font-bold text-navy mb-3">See your score and what to fix</h3>
-              <p className="text-navy/70 leading-relaxed mb-4">
-                Get your AI Visibility Score with a platform-by-platform breakdown, a diagnosis of why you score the way you do, and prioritized recommendations ranked by impact.
-              </p>
-              <span className="font-mono text-xs text-amber uppercase tracking-wider">Your first insight in under 2 minutes</span>
+          <ScrollReveal delay={0.3}>
+            <div className="flex gap-8 relative z-10">
+              <div className="w-10 h-10 rounded-full bg-navy text-warm flex items-center justify-center shrink-0 font-serif text-xl">3</div>
+              <div>
+                <h3 className="text-xl font-bold text-navy mb-3">See your score and what to fix</h3>
+                <p className="text-navy/70 leading-relaxed mb-4">
+                  Get your AI Visibility Score with a platform-by-platform breakdown, a diagnosis of why you score the way you do, and prioritized recommendations ranked by impact.
+                </p>
+                <span className="font-mono text-xs text-amber uppercase tracking-wider">Your first insight in under 2 minutes</span>
+              </div>
             </div>
-          </div>
+          </ScrollReveal>
         </div>
       </div>
     </section>
@@ -598,26 +677,28 @@ const Testimonial = () => {
   return (
     <section className="py-32 px-6 bg-navy relative z-10">
       <div className="max-w-4xl mx-auto flex flex-col items-center text-center">
-        <p className="font-sans text-2xl md:text-3xl text-warm/90 leading-relaxed font-light mb-8 max-w-3xl">
-          "We spent a decade optimizing for Google, but when we asked AI for recommendations in our category, we simply did not exist. Lumen showed us exactly which models were ignoring us and gave us a step-by-step plan to fix it. Within two months, our visibility score doubled."
-        </p>
-        <span className="font-mono text-sm text-amber mb-24">Marketing Lead, Mid-size Fashion Brand</span>
+        <ScrollReveal>
+          <p className="font-sans text-2xl md:text-3xl text-warm/90 leading-relaxed font-light mb-8 max-w-3xl">
+            "We spent a decade optimizing for Google, but when we asked AI for recommendations in our category, we simply did not exist. Lumen showed us exactly which models were ignoring us and gave us a step-by-step plan to fix it. Within two months, our visibility score doubled."
+          </p>
+          <div className="font-mono text-sm text-amber mb-24">Marketing Lead, Mid-size Fashion Brand</div>
+        </ScrollReveal>
         
         <div className="flex flex-col md:flex-row items-center justify-center gap-12 md:gap-24 w-full">
-          <div className="flex flex-col items-center">
+          <ScrollReveal delay={0.1} className="flex flex-col items-center">
             <span className="font-serif text-5xl text-warm mb-3">4</span>
             <span className="font-mono text-xs text-warm/50 uppercase tracking-widest">AI Engines</span>
-          </div>
+          </ScrollReveal>
           <div className="hidden md:block w-px h-16 bg-warm/10"></div>
-          <div className="flex flex-col items-center">
+          <ScrollReveal delay={0.2} className="flex flex-col items-center">
             <span className="font-serif text-5xl text-warm mb-3">20</span>
             <span className="font-mono text-xs text-warm/50 uppercase tracking-widest">Queries per scan</span>
-          </div>
+          </ScrollReveal>
           <div className="hidden md:block w-px h-16 bg-warm/10"></div>
-          <div className="flex flex-col items-center">
+          <ScrollReveal delay={0.3} className="flex flex-col items-center">
             <span className="font-serif text-5xl text-warm mb-3">7</span>
             <span className="font-mono text-xs text-warm/50 uppercase tracking-widest">Diagnostic factors</span>
-          </div>
+          </ScrollReveal>
         </div>
       </div>
     </section>
@@ -628,41 +709,47 @@ const PreFooterCTA = () => {
   return (
     <section className="py-32 px-6 bg-warm relative z-10">
       <div className="max-w-2xl mx-auto flex flex-col items-center text-center">
-        <h2 className="font-serif text-5xl md:text-6xl text-navy leading-[1.1] mb-4">
-          Your brand has an AI reputation.
-        </h2>
-        <p className="text-xl text-navy/70 mb-12">
-          Do you know what it is?
-        </p>
+        <ScrollReveal>
+          <h2 className="font-serif text-5xl md:text-6xl text-navy leading-[1.1] mb-4">
+            Your brand has an AI reputation.
+          </h2>
+          <p className="text-xl text-navy/70 mb-12">
+            Do you know what it is?
+          </p>
+        </ScrollReveal>
         
-        <div className="flex flex-col sm:flex-row items-center gap-4 w-full max-w-xl mb-6">
-          <div className="relative w-full flex-1">
-            <input 
-              type="text" 
-              placeholder="Your brand name or website URL" 
-              className="w-full bg-white border border-navy/10 rounded-xl py-4 px-6 text-navy placeholder:text-navy/40 focus:outline-none focus:ring-2 focus:ring-amber/50 focus:border-amber transition-all shadow-sm text-base"
-            />
+        <ScrollReveal delay={0.2} className="w-full max-w-xl">
+          <div className="flex flex-col sm:flex-row items-center gap-4 w-full mb-6">
+            <div className="relative w-full flex-1">
+              <input 
+                type="text" 
+                placeholder="Your brand name or website URL" 
+                className="w-full bg-white border border-navy/10 rounded-xl py-4 px-6 text-navy placeholder:text-navy/40 focus:outline-none focus:ring-2 focus:ring-amber/50 focus:border-amber transition-all shadow-sm text-base"
+              />
+            </div>
+            <button className="btn-magnetic w-full sm:w-auto bg-amber text-navy px-8 py-4 rounded-xl font-medium flex items-center justify-center gap-2 shadow-md whitespace-nowrap text-base">
+              <span>Check my brand</span>
+            </button>
           </div>
-          <button className="btn-magnetic w-full sm:w-auto bg-amber text-navy px-8 py-4 rounded-xl font-medium flex items-center justify-center gap-2 shadow-md whitespace-nowrap text-base">
-            <span>Check my brand</span>
-          </button>
-        </div>
-        <p className="text-xs font-mono text-navy/50 mb-20">Takes 60 seconds. No account required.</p>
+          <p className="text-xs font-mono text-navy/50 mb-20">Takes 60 seconds. No account required.</p>
+        </ScrollReveal>
 
         {/* Coming Soon Callout */}
-        <div className="w-full max-w-xl bg-white/50 border border-navy/5 rounded-2xl p-6 md:p-8 backdrop-blur-sm relative overflow-hidden group">
-          <div className="absolute inset-0 bg-gradient-to-br from-amber/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-          <div className="relative z-10 flex flex-col items-center text-center">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber/10 text-amber text-xs font-bold uppercase tracking-wider mb-4">
-              <Sparkles className="w-3 h-3" />
-              Coming Soon
+        <ScrollReveal delay={0.4} className="w-full max-w-xl">
+          <div className="bg-white/50 border border-navy/5 rounded-2xl p-6 md:p-8 backdrop-blur-sm relative overflow-hidden group">
+            <div className="absolute inset-0 bg-gradient-to-br from-amber/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <div className="relative z-10 flex flex-col items-center text-center">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber/10 text-amber text-xs font-bold uppercase tracking-wider mb-4">
+                <Sparkles className="w-3 h-3" />
+                Coming Soon
+              </div>
+              <h3 className="text-xl font-serif text-navy mb-2">UCP + ACP Connectivity</h3>
+              <p className="text-navy/60 text-sm leading-relaxed max-w-md">
+                Don't just be visible—be purchasable. Soon, you'll be able to connect your catalog directly to AI agents, turning recommendations into instant transactions.
+              </p>
             </div>
-            <h3 className="text-xl font-serif text-navy mb-2">UCP + ACP Connectivity</h3>
-            <p className="text-navy/60 text-sm leading-relaxed max-w-md">
-              Don't just be visible—be purchasable. Soon, you'll be able to connect your catalog directly to AI agents, turning recommendations into instant transactions.
-            </p>
           </div>
-        </div>
+        </ScrollReveal>
       </div>
     </section>
   );
@@ -676,12 +763,7 @@ const Footer = () => {
       <div className="max-w-6xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-20">
           <div className="col-span-1 md:col-span-2">
-            <div className="flex items-center gap-2 mb-6">
-              <div className="w-6 h-6 rounded-full bg-amber flex items-center justify-center">
-                <div className="w-2 h-2 rounded-full bg-navy"></div>
-              </div>
-              <span className="font-serif text-3xl tracking-tight">Lumen</span>
-            </div>
+            <Logo textColor="text-warm" className="mb-6" />
             <p className="text-warm/60 max-w-sm font-light leading-relaxed mb-8">
               AI visibility intelligence. See where AI sees you, and control the narrative.
             </p>
@@ -729,7 +811,7 @@ const DashboardPreviewSection = () => {
     <section className="py-32 px-6 bg-warm relative z-10 overflow-hidden">
       <div className="max-w-7xl mx-auto flex flex-col items-center">
         {/* Header */}
-        <div className="text-center mb-16">
+        <ScrollReveal className="text-center mb-16">
           <div className="font-mono text-[12px] tracking-[0.12em] text-amber uppercase mb-4 font-bold">
             Your Dashboard
           </div>
@@ -739,10 +821,10 @@ const DashboardPreviewSection = () => {
           <p className="text-lg md:text-xl text-[#415A77] font-light">
             Your score, your diagnostics, your next steps. All in one place.
           </p>
-        </div>
+        </ScrollReveal>
 
         {/* Dashboard Container with 3D Transform */}
-        <div className="relative w-full max-w-[1200px] mx-auto perspective-[1200px]">
+        <ScrollReveal delay={0.2} className="relative w-full max-w-[1200px] mx-auto perspective-[1200px]">
           {/* Ambient Glow */}
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] bg-white/40 blur-[100px] rounded-full pointer-events-none"></div>
           
@@ -760,10 +842,7 @@ const DashboardPreviewSection = () => {
             {/* Sidebar */}
             <div className="w-64 bg-[#FAFAFA] border-r border-navy/5 p-6 flex-shrink-0 hidden md:flex flex-col">
               <div className="flex items-center gap-3 mb-10">
-                <div className="w-8 h-8 rounded-full bg-navy flex items-center justify-center">
-                  <div className="w-3 h-3 rounded-full bg-amber"></div>
-                </div>
-                <span className="font-serif text-xl font-bold text-navy">Lumen</span>
+                <Logo />
               </div>
               
               <div className="mb-8">
@@ -988,7 +1067,7 @@ const DashboardPreviewSection = () => {
               </div>
             </div>
           </div>
-        </div>
+        </ScrollReveal>
       </div>
     </section>
   );
