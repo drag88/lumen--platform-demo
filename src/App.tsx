@@ -575,13 +575,14 @@ const TheProblem = () => {
     { id: 0, tagline: "AI recommends brands based on what it knows. Right now, it does not know yours." },
     { id: 1, tagline: "Lumen diagnoses what is holding you back." },
     { id: 2, tagline: "Lumen tells you exactly what to fix, ranked by impact." },
-    { id: 3, tagline: "AI recommends brands based on what it knows. Lumen makes sure it knows yours." }
+    { id: 3, tagline: "Your dashboard shows progress in real time. Every action moves the score." },
+    { id: 4, tagline: "AI recommends brands based on what it knows. Lumen makes sure it knows yours." }
   ];
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setStage((prev) => (prev + 1) % 4);
-    }, 5000);
+      setStage((prev) => (prev + 1) % 5);
+    }, 5500);
     return () => clearInterval(timer);
   }, []);
 
@@ -604,7 +605,9 @@ const TheProblem = () => {
                 <div className="w-2.5 h-2.5 rounded-full bg-navy/20"></div>
                 <div className="w-2.5 h-2.5 rounded-full bg-navy/20"></div>
               </div>
-              <span className="font-mono text-[10px] text-navy/40 uppercase tracking-widest">chatgpt.com</span>
+              <span className="font-mono text-[10px] text-navy/40 uppercase tracking-widest">
+                {stage === 3 ? "lumen.so/dashboard" : "chatgpt.com"}
+              </span>
             </div>
             
             {/* Content Area */}
@@ -751,6 +754,136 @@ const TheProblem = () => {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -20 }}
                     transition={{ duration: 0.4 }}
+                    className="flex h-full min-h-[400px]"
+                  >
+                    {/* Mini Sidebar */}
+                    <div className="w-48 bg-[#FAFAFA] border-r border-navy/5 p-4 flex-shrink-0 hidden md:flex flex-col">
+                      <div className="mb-6">
+                        <div className="text-[8px] font-bold text-navy/40 uppercase tracking-wider mb-2">AI Perception</div>
+                        <div className="space-y-0.5">
+                          <div className="flex items-center gap-2 px-2 py-1.5 rounded-md bg-white shadow-sm border border-navy/5 text-navy font-medium text-[10px]">
+                            <BarChart3 className="w-3 h-3 text-amber" /> Overview
+                          </div>
+                          <div className="flex items-center gap-2 px-2 py-1.5 text-navy/40 font-medium text-[10px]">
+                            <Box className="w-3 h-3" /> Products
+                          </div>
+                          <div className="flex items-center gap-2 px-2 py-1.5 text-navy/40 font-medium text-[10px]">
+                            <Tag className="w-3 h-3" /> Category
+                          </div>
+                          <div className="flex items-center gap-2 px-2 py-1.5 text-navy/40 font-medium text-[10px]">
+                            <Award className="w-3 h-3" /> Brand
+                          </div>
+                        </div>
+                      </div>
+                      <div>
+                        <div className="text-[8px] font-bold text-navy/40 uppercase tracking-wider mb-2">Action Center</div>
+                        <div className="space-y-0.5">
+                          <div className="flex items-center gap-2 px-2 py-1.5 text-navy/40 font-medium text-[10px]">
+                            <FileText className="w-3 h-3" /> Content Optimization
+                          </div>
+                          <div className="flex items-center gap-2 px-2 py-1.5 text-navy/40 font-medium text-[10px]">
+                            <ShieldCheck className="w-3 h-3" /> Trust & Proof
+                          </div>
+                          <div className="flex items-center gap-2 px-2 py-1.5 text-navy/40 font-medium text-[10px]">
+                            <Zap className="w-3 h-3" /> Authority Engine
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Mini Main Content */}
+                    <div className="flex-1 p-6 bg-white overflow-hidden">
+                      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                        {/* Audit Score Breakdown */}
+                        <div className="bg-white rounded-xl border border-navy/5 p-4 shadow-sm">
+                          <div className="text-[9px] font-bold text-navy uppercase tracking-wider mb-4">Audit Score Breakdown</div>
+                          <div className="flex items-center gap-6">
+                            <div className="relative w-20 h-20 flex-shrink-0">
+                              <svg viewBox="0 0 100 100" className="w-full h-full transform -rotate-90">
+                                <circle cx="50" cy="50" r="40" fill="transparent" stroke="#f1f5f9" strokeWidth="12" />
+                                <motion.circle 
+                                  cx="50" cy="50" r="40" fill="transparent" 
+                                  initial={{ stroke: "#ef4444", strokeDashoffset: 200.96 }}
+                                  animate={{ stroke: "#E8A838", strokeDashoffset: 100.48 }}
+                                  transition={{ duration: 1, ease: "easeOut" }}
+                                  strokeWidth="12" strokeDasharray="251.2"
+                                />
+                              </svg>
+                              <div className="absolute inset-0 flex flex-col items-center justify-center">
+                                <motion.span 
+                                  initial={{ opacity: 0 }}
+                                  animate={{ opacity: 1 }}
+                                  className="text-xl font-bold text-navy leading-none"
+                                >
+                                  240
+                                </motion.span>
+                                <span className="text-[8px] text-navy/40 font-medium">of 400</span>
+                              </div>
+                            </div>
+                            <div className="flex-1 space-y-2">
+                              {[
+                                { label: "Product Presence", start: 0, end: 35 },
+                                { label: "Product Relevance", start: 10, end: 55 },
+                                { label: "Brand Authority", start: 45, end: 80 },
+                                { label: "Purchase Readiness", start: 25, end: 70 }
+                              ].map((f, i) => (
+                                <div key={i} className="flex items-center justify-between">
+                                  <span className="text-[9px] text-navy/60">{f.label}</span>
+                                  <motion.span 
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    transition={{ delay: i * 0.15 }}
+                                    className="text-[9px] font-bold text-amber"
+                                  >
+                                    {f.end}
+                                  </motion.span>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Simulation Insights */}
+                        <div className="bg-white rounded-xl border border-navy/5 p-4 shadow-sm">
+                          <div className="flex items-center gap-1.5 text-navy font-medium text-[9px] mb-3">
+                            <Zap className="w-3 h-3 text-amber" /> Simulation Insights
+                          </div>
+                          <div className="bg-blue-50/50 rounded-lg p-3 border border-blue-100">
+                            <div className="flex items-center gap-1 text-[8px] font-bold text-blue-600 uppercase tracking-wider mb-2">
+                              <Target className="w-2.5 h-2.5" /> Top Opportunity
+                            </div>
+                            <div className="text-[10px] font-bold text-navy mb-2">Index 28 Missing Products</div>
+                            <div className="flex items-center justify-between bg-white rounded-md p-2 border border-blue-50 mb-2">
+                              <div>
+                                <div className="text-[7px] font-bold text-navy/40 uppercase mb-0.5">Current</div>
+                                <div className="text-[9px] font-bold text-navy">23%</div>
+                              </div>
+                              <ChevronRight className="w-2.5 h-2.5 text-navy/20" />
+                              <div>
+                                <div className="text-[7px] font-bold text-navy/40 uppercase mb-0.5">Projected</div>
+                                <div className="text-[9px] font-bold text-blue-600">45%</div>
+                              </div>
+                            </div>
+                            <div className="flex items-center justify-between">
+                              <div className="text-[9px] font-bold text-navy flex items-center gap-1">
+                                <ArrowUpRight className="w-2.5 h-2.5 text-blue-600" /> +$4.5K/mo
+                              </div>
+                              <div className="bg-blue-600 text-white text-[8px] font-medium px-2 py-1 rounded-md">Start</div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+
+                {stage === 4 && (
+                  <motion.div 
+                    key="stage4"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    transition={{ duration: 0.4 }}
                     className="flex flex-col gap-6"
                   >
                     <div className="self-end bg-navy/5 rounded-2xl rounded-tr-sm px-6 py-4 max-w-[80%]">
@@ -785,7 +918,7 @@ const TheProblem = () => {
 
             {/* Score Badge Overlay */}
             <div className="absolute top-16 right-6 z-20">
-              <ScoreBadge score={stage === 3 ? 67 : 12} animate={stage === 3} />
+              <ScoreBadge score={stage === 4 ? 67 : stage === 3 ? 34 : 12} animate={stage === 4} />
             </div>
           </div>
 
