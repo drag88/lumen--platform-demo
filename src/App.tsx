@@ -151,12 +151,7 @@ const SCENARIOS = [
 
 const ScenarioView = ({ scenario }: { scenario: typeof SCENARIOS[0] }) => {
   return (
-    <motion.div 
-      className="absolute inset-0"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0, transition: { duration: 0.5 } }}
-    >
+    <div className="absolute inset-0">
       {/* SVG Connections */}
       <svg className="absolute inset-0 w-full h-full pointer-events-none z-0" viewBox="0 0 100 100" preserveAspectRatio="none">
         <defs>
@@ -180,7 +175,7 @@ const ScenarioView = ({ scenario }: { scenario: typeof SCENARIOS[0] }) => {
             <g key={m.id}>
               {/* Top Path */}
               <motion.path
-                d={`M 50 20 C 50 28, ${baseModel.x} 28, ${baseModel.x} 35`}
+                d={`M 50 18 C 50 26, ${baseModel.x} 26, ${baseModel.x} 35`}
                 fill="none"
                 stroke={`url(#grad-${m.id})`}
                 strokeWidth="0.3"
@@ -191,7 +186,7 @@ const ScenarioView = ({ scenario }: { scenario: typeof SCENARIOS[0] }) => {
               />
               {/* Bottom Path */}
               <motion.path
-                d={`M ${baseModel.x} 55 C ${baseModel.x} 62, 50 62, 50 67`}
+                d={`M ${baseModel.x} 55 C ${baseModel.x} 58, 50 58, 50 59`}
                 fill="none"
                 stroke={`url(#grad-bot-${m.id})`}
                 strokeWidth="0.3"
@@ -205,28 +200,25 @@ const ScenarioView = ({ scenario }: { scenario: typeof SCENARIOS[0] }) => {
         })}
       </svg>
 
-      {/* 1. Query Node */}
+      {/* 1. Query Node & Tags */}
       <motion.div
-        className="absolute top-[8%] left-[50%] -translate-x-1/2 -translate-y-1/2 bg-white px-6 py-3 md:px-8 md:py-4 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-navy/5 z-10 w-max max-w-[90%]"
+        className="absolute top-[12%] left-[50%] -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-3 z-10 w-max max-w-[90%]"
         initial={{ opacity: 0, scale: 0.8, y: -40 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         transition={{ type: "spring", bounce: 0.5, duration: 0.8 }}
       >
-        <div className="absolute -top-3 -left-3 w-8 h-8 bg-white rounded-full shadow-sm border border-navy/5 flex items-center justify-center">
-          <Sparkles className="w-4 h-4 text-amber" />
+        <div className="bg-white px-6 py-3 md:px-8 md:py-4 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-navy/5 relative">
+          <div className="absolute -top-3 -left-3 w-8 h-8 bg-white rounded-full shadow-sm border border-navy/5 flex items-center justify-center">
+            <Sparkles className="w-4 h-4 text-amber" />
+          </div>
+          <p className="text-navy font-medium text-sm md:text-base">{scenario.query}</p>
         </div>
-        <p className="text-navy font-medium text-sm md:text-base">{scenario.query}</p>
-      </motion.div>
-
-      {/* 2. Tags */}
-      <motion.div
-        className="absolute top-[18%] left-[50%] -translate-x-1/2 -translate-y-1/2 flex gap-2 md:gap-3 z-10 w-max"
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.4 }}
-      >
-        <span className="px-3 py-1 md:px-4 md:py-1.5 rounded-full border border-navy/10 text-[10px] md:text-xs text-navy/60 bg-white/80 backdrop-blur-sm shadow-sm">Category: {scenario.category}</span>
-        <span className="px-3 py-1 md:px-4 md:py-1.5 rounded-full border border-navy/10 text-[10px] md:text-xs text-navy/60 bg-white/80 backdrop-blur-sm shadow-sm">Intent: {scenario.intent}</span>
+        
+        {/* Tags */}
+        <div className="flex gap-2 md:gap-3">
+          <span className="px-3 py-1 md:px-4 md:py-1.5 rounded-full border border-navy/10 text-[10px] md:text-xs text-navy/60 bg-white/80 backdrop-blur-sm shadow-sm">Category: {scenario.category}</span>
+          <span className="px-3 py-1 md:px-4 md:py-1.5 rounded-full border border-navy/10 text-[10px] md:text-xs text-navy/60 bg-white/80 backdrop-blur-sm shadow-sm">Intent: {scenario.intent}</span>
+        </div>
       </motion.div>
 
       {/* 3. AI Models */}
@@ -370,7 +362,7 @@ const ScenarioView = ({ scenario }: { scenario: typeof SCENARIOS[0] }) => {
           </div>
         </motion.div>
       </motion.div>
-    </motion.div>
+    </div>
   );
 };
 
@@ -391,7 +383,16 @@ const HeroVisual = () => {
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:24px_24px] rounded-3xl"></div>
 
         <AnimatePresence mode="wait">
-          <ScenarioView key={currentIndex} scenario={SCENARIOS[currentIndex]} />
+          <motion.div
+            key={currentIndex}
+            className="absolute inset-0"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <ScenarioView scenario={SCENARIOS[currentIndex]} />
+          </motion.div>
         </AnimatePresence>
       </div>
     </div>
@@ -617,7 +618,7 @@ const TheProblem = () => {
         </ScrollReveal>
         
         <div className="w-full max-w-4xl relative">
-          <div className="bg-white rounded-[32px] shadow-2xl border border-navy/5 overflow-hidden relative min-h-[580px] md:min-h-[560px]">
+          <div className="bg-white rounded-[32px] shadow-2xl border border-navy/5 overflow-hidden relative min-h-[580px] md:min-h-[520px]">
             {/* Browser Header */}
             <div className="bg-navy/5 px-4 py-3 flex items-center justify-center relative border-b border-navy/5">
               <div className="absolute left-4 flex gap-1.5">
@@ -1041,8 +1042,8 @@ const TheProblem = () => {
             </div>
 
             {/* Score Badge Overlay */}
-            <div className="absolute top-16 right-6 z-20">
-              <ScoreBadge score={stage === 4 ? 67 : stage === 3 ? 34 : 12} animate={stage === 4} />
+            <div className={`absolute top-16 right-6 z-20 ${stage === 3 ? 'hidden' : ''}`}>
+              <ScoreBadge score={stage === 4 ? 67 : 12} animate={stage === 4} />
             </div>
           </div>
 

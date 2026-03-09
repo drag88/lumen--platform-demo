@@ -9,7 +9,7 @@ import {
   Activity,
   Target,
   ListTodo,
-  Download,
+  TrendingUp,
   CheckCircle2,
   AlertCircle,
   ArrowUpRight,
@@ -323,36 +323,106 @@ const ActionPlanMockup = () => (
   </div>
 );
 
-const ExportReportMockup = () => (
-  <div className="relative w-full max-w-xs flex justify-center items-center py-12">
-    <motion.div
-      animate={{ rotate: [-8, -6, -8] }}
-      transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
-      className="bg-white w-52 h-72 rounded-xl shadow-2xl border border-[#F0EDE6] flex flex-col p-5 relative z-10 overflow-hidden"
-    >
-      <div className="absolute top-0 right-0 w-16 h-16 bg-[#E8A838]/10 rounded-bl-full" />
-      <div className="w-10 h-10 rounded-xl bg-[#0D1B2A] flex items-center justify-center mb-8">
-        <div className="w-3 h-3 rounded-full bg-[#E8A838]" />
-      </div>
-      <div className="space-y-3 mb-8">
-        <div className="h-2 w-full bg-[#F8F6F1] rounded" />
-        <div className="h-2 w-5/6 bg-[#F8F6F1] rounded" />
-        <div className="h-2 w-4/6 bg-[#F8F6F1] rounded" />
-      </div>
-      <div className="mt-auto pt-4 border-t border-[#F0EDE6]">
-        <div className="flex items-center justify-between">
-          <div>
-            <div className="text-[8px] font-mono text-[#415A77] uppercase">
-              Final Audit
+const WeeklyProgressMockup = () => (
+  <div className="w-full max-w-xs flex flex-col gap-3 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-700">
+    <div className="bg-white rounded-2xl border border-[#F0EDE6] shadow-xl overflow-hidden">
+      <div className="p-5">
+        {/* Header */}
+        <div className="flex items-center justify-between mb-5">
+          <div className="flex items-center gap-2">
+            <div className="w-6 h-6 rounded-lg bg-[#E8A838]/10 flex items-center justify-center">
+              <TrendingUp className="w-3.5 h-3.5 text-[#E8A838]" />
             </div>
-            <Logo size="text-xl" />
+            <span className="text-[10px] font-bold text-[#0D1B2A] uppercase tracking-wider">
+              Visibility Trend
+            </span>
           </div>
-          <CheckCircle2 className="w-5 h-5 text-[#2D6A4F]" />
+          <span className="text-[9px] font-mono text-[#415A77]">6 weeks</span>
+        </div>
+
+        {/* Sparkline Chart */}
+        <div className="relative mb-5">
+          <div className="flex items-end justify-between mb-1.5">
+            <span className="font-mono text-[10px] text-[#415A77]">28</span>
+            <span className="font-mono text-sm font-bold text-[#0D1B2A]">52</span>
+          </div>
+          <div className="relative h-16">
+            <svg viewBox="0 0 200 60" className="w-full h-full" preserveAspectRatio="none">
+              {/* Fill area */}
+              <motion.path
+                d="M0,52 C20,50 40,46 70,38 C100,30 130,22 160,16 C175,12 190,8 200,6 L200,60 L0,60 Z"
+                fill="rgba(232, 168, 56, 0.08)"
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                transition={{ duration: 1, delay: 0.5 }}
+              />
+              {/* Line */}
+              <motion.path
+                d="M0,52 C20,50 40,46 70,38 C100,30 130,22 160,16 C175,12 190,8 200,6"
+                fill="none"
+                stroke="#E8A838"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                initial={{ pathLength: 0, opacity: 0 }}
+                whileInView={{ pathLength: 1, opacity: 1 }}
+                transition={{ duration: 1.5, ease: "easeOut", delay: 0.3 }}
+              />
+              {/* End dot */}
+              <motion.circle
+                cx="200"
+                cy="6"
+                r="4"
+                fill="#E8A838"
+                initial={{ scale: 0, opacity: 0 }}
+                whileInView={{ scale: 1, opacity: 1 }}
+                transition={{ delay: 1.6, type: "spring", stiffness: 200 }}
+              />
+            </svg>
+          </div>
+        </div>
+
+        {/* Stats */}
+        <div className="space-y-3">
+          <div className="flex items-center justify-between">
+            <span className="text-[10px] text-[#415A77] font-medium">This week</span>
+            <div className="flex items-center gap-2">
+              <span className="font-mono text-xs font-bold text-[#0D1B2A]">52</span>
+              <div className="flex items-center gap-0.5 text-[#2D6A4F]">
+                <ArrowUpRight className="w-3 h-3" />
+                <span className="text-[10px] font-bold">+4 pts</span>
+              </div>
+            </div>
+          </div>
+          <div className="flex items-center justify-between">
+            <span className="text-[10px] text-[#415A77] font-medium">Actions completed</span>
+            <div className="flex items-center gap-2">
+              <span className="font-mono text-[10px] text-[#415A77]">3 of 8</span>
+              <div className="w-12 h-1 bg-[#F8F6F1] rounded-full overflow-hidden">
+                <motion.div
+                  initial={{ width: 0 }}
+                  whileInView={{ width: "37.5%" }}
+                  transition={{ duration: 1, delay: 0.8 }}
+                  className="h-full bg-[#E8A838] rounded-full"
+                />
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-    </motion.div>
-    <div className="absolute -bottom-2 right-4 bg-[#0D1B2A] text-white text-[10px] font-mono px-5 py-2.5 rounded-full shadow-2xl flex items-center gap-2 z-20">
-      <Download className="w-3 h-3" /> EXPORT_READY.PDF
+    </div>
+
+    {/* Bottom pill - matches "Critical Gap Detected" style from diagnostics card */}
+    <div className="bg-[#0D1B2A] text-white p-3 rounded-xl shadow-lg flex items-center gap-3 transform translate-x-4">
+      <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center">
+        <Activity className="w-4 h-4 text-[#E8A838]" />
+      </div>
+      <div>
+        <div className="text-[8px] font-mono text-white/50 uppercase tracking-wider">
+          Weekly Scan
+        </div>
+        <div className="text-[10px] font-medium">Next scan in 3 days</div>
+      </div>
     </div>
   </div>
 );
@@ -397,10 +467,10 @@ export default function FeaturesBentoGrid() {
       colSpan: "md:col-span-7",
     },
     {
-      title: "Export and share your results",
+      title: "Watch your score climb",
       description:
-        "Download a PDF report with your full analysis — scores, diagnostics, and recommendations.",
-      mockup: <ExportReportMockup />,
+        "Lumen tracks your visibility week over week. See what improved, what shifted, and what to do next. Every scan builds on the last.",
+      mockup: <WeeklyProgressMockup />,
       colSpan: "md:col-span-5",
     },
   ];
