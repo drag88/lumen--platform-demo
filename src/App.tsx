@@ -151,7 +151,12 @@ const SCENARIOS = [
 
 const ScenarioView = ({ scenario }: { scenario: typeof SCENARIOS[0] }) => {
   return (
-    <div className="absolute inset-0">
+    <motion.div 
+      className="absolute inset-0"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0, transition: { duration: 0.5 } }}
+    >
       {/* SVG Connections */}
       <svg className="absolute inset-0 w-full h-full pointer-events-none z-0" viewBox="0 0 100 100" preserveAspectRatio="none">
         <defs>
@@ -175,7 +180,7 @@ const ScenarioView = ({ scenario }: { scenario: typeof SCENARIOS[0] }) => {
             <g key={m.id}>
               {/* Top Path */}
               <motion.path
-                d={`M 50 18 C 50 26, ${baseModel.x} 26, ${baseModel.x} 35`}
+                d={`M 50 20 C 50 28, ${baseModel.x} 28, ${baseModel.x} 35`}
                 fill="none"
                 stroke={`url(#grad-${m.id})`}
                 strokeWidth="0.3"
@@ -186,7 +191,7 @@ const ScenarioView = ({ scenario }: { scenario: typeof SCENARIOS[0] }) => {
               />
               {/* Bottom Path */}
               <motion.path
-                d={`M ${baseModel.x} 55 C ${baseModel.x} 58, 50 58, 50 59`}
+                d={`M ${baseModel.x} 55 C ${baseModel.x} 62, 50 62, 50 67`}
                 fill="none"
                 stroke={`url(#grad-bot-${m.id})`}
                 strokeWidth="0.3"
@@ -200,25 +205,28 @@ const ScenarioView = ({ scenario }: { scenario: typeof SCENARIOS[0] }) => {
         })}
       </svg>
 
-      {/* 1. Query Node & Tags */}
+      {/* 1. Query Node */}
       <motion.div
-        className="absolute top-[12%] left-[50%] -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-3 z-10 w-max max-w-[90%]"
+        className="absolute top-[8%] left-[50%] -translate-x-1/2 -translate-y-1/2 bg-white px-6 py-3 md:px-8 md:py-4 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-navy/5 z-10 w-max max-w-[90%]"
         initial={{ opacity: 0, scale: 0.8, y: -40 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         transition={{ type: "spring", bounce: 0.5, duration: 0.8 }}
       >
-        <div className="bg-white px-6 py-3 md:px-8 md:py-4 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-navy/5 relative">
-          <div className="absolute -top-3 -left-3 w-8 h-8 bg-white rounded-full shadow-sm border border-navy/5 flex items-center justify-center">
-            <Sparkles className="w-4 h-4 text-amber" />
-          </div>
-          <p className="text-navy font-medium text-sm md:text-base">{scenario.query}</p>
+        <div className="absolute -top-3 -left-3 w-8 h-8 bg-white rounded-full shadow-sm border border-navy/5 flex items-center justify-center">
+          <Sparkles className="w-4 h-4 text-amber" />
         </div>
-        
-        {/* Tags */}
-        <div className="flex gap-2 md:gap-3">
-          <span className="px-3 py-1 md:px-4 md:py-1.5 rounded-full border border-navy/10 text-[10px] md:text-xs text-navy/60 bg-white/80 backdrop-blur-sm shadow-sm">Category: {scenario.category}</span>
-          <span className="px-3 py-1 md:px-4 md:py-1.5 rounded-full border border-navy/10 text-[10px] md:text-xs text-navy/60 bg-white/80 backdrop-blur-sm shadow-sm">Intent: {scenario.intent}</span>
-        </div>
+        <p className="text-navy font-medium text-sm md:text-base">{scenario.query}</p>
+      </motion.div>
+
+      {/* 2. Tags */}
+      <motion.div
+        className="absolute top-[18%] left-[50%] -translate-x-1/2 -translate-y-1/2 flex gap-2 md:gap-3 z-10 w-max"
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.4 }}
+      >
+        <span className="px-3 py-1 md:px-4 md:py-1.5 rounded-full border border-navy/10 text-[10px] md:text-xs text-navy/60 bg-white/80 backdrop-blur-sm shadow-sm">Category: {scenario.category}</span>
+        <span className="px-3 py-1 md:px-4 md:py-1.5 rounded-full border border-navy/10 text-[10px] md:text-xs text-navy/60 bg-white/80 backdrop-blur-sm shadow-sm">Intent: {scenario.intent}</span>
       </motion.div>
 
       {/* 3. AI Models */}
@@ -362,7 +370,7 @@ const ScenarioView = ({ scenario }: { scenario: typeof SCENARIOS[0] }) => {
           </div>
         </motion.div>
       </motion.div>
-    </div>
+    </motion.div>
   );
 };
 
@@ -383,16 +391,7 @@ const HeroVisual = () => {
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:24px_24px] rounded-3xl"></div>
 
         <AnimatePresence mode="wait">
-          <motion.div
-            key={currentIndex}
-            className="absolute inset-0"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            <ScenarioView scenario={SCENARIOS[currentIndex]} />
-          </motion.div>
+          <ScenarioView key={currentIndex} scenario={SCENARIOS[currentIndex]} />
         </AnimatePresence>
       </div>
     </div>
@@ -618,10 +617,10 @@ const TheProblem = () => {
         </ScrollReveal>
         
         <div className="w-full max-w-4xl relative">
-          <div className="bg-white rounded-[32px] shadow-2xl border border-navy/5 overflow-hidden relative min-h-[580px] md:min-h-[520px]">
+          <div className="bg-white rounded-[32px] shadow-2xl border border-navy/5 overflow-hidden relative min-h-[520px] md:min-h-[560px]">
             {/* Browser Header */}
-            <div className="bg-navy/5 px-4 py-3 flex items-center justify-center relative border-b border-navy/5">
-              <div className="absolute left-4 flex gap-1.5">
+            <div className="bg-navy/5 px-4 py-3 flex items-center justify-between relative border-b border-navy/5">
+              <div className="flex gap-1.5">
                 <div className="w-2.5 h-2.5 rounded-full bg-navy/20"></div>
                 <div className="w-2.5 h-2.5 rounded-full bg-navy/20"></div>
                 <div className="w-2.5 h-2.5 rounded-full bg-navy/20"></div>
@@ -629,6 +628,21 @@ const TheProblem = () => {
               <span className="font-mono text-[10px] text-navy/40 uppercase tracking-widest">
                 {stage === 3 ? 'lumen.so/dashboard' : 'chatgpt.com'}
               </span>
+              <div className={`flex items-center gap-2 ${stage === 3 ? 'invisible' : ''}`}>
+                <span className="font-mono text-[9px] text-navy/30 uppercase tracking-widest">Score</span>
+                <div className="flex items-baseline gap-0.5">
+                  <motion.span
+                    key={stage}
+                    className="font-mono text-sm font-bold text-amber"
+                    initial={{ opacity: 0, y: 4 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    {stage === 4 ? '67' : '12'}
+                  </motion.span>
+                  <span className="font-mono text-[9px] text-navy/20">/100</span>
+                </div>
+              </div>
             </div>
             
             {/* Content Area */}
@@ -677,7 +691,7 @@ const TheProblem = () => {
                     className="flex flex-col gap-8 py-4"
                   >
                     <h3 className="text-xl font-bold text-navy">Diagnostic Factors</h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-6">
                       {[
                         { label: "Third-party mentions", status: "Low", value: 20 },
                         { label: "Content quality", status: "Needs work", value: 35 },
@@ -700,9 +714,9 @@ const TheProblem = () => {
                         </div>
                       ))}
                     </div>
-                    <div className="mt-8 p-6 bg-navy/5 rounded-2xl border border-navy/5">
-                      <p className="text-sm text-navy/60 leading-relaxed">
-                        Lumen identifies that your brand lacks structured data and third-party citations, which are critical for AI recognition in your category.
+                    <div className="mt-4 p-4 bg-navy/5 rounded-xl border border-navy/5">
+                      <p className="text-xs text-navy/50 leading-relaxed">
+                        Your brand lacks structured data and third-party citations, the two most critical factors for AI recognition in your category.
                       </p>
                     </div>
                   </motion.div>
@@ -1039,11 +1053,6 @@ const TheProblem = () => {
                   </motion.div>
                 )}
               </AnimatePresence>
-            </div>
-
-            {/* Score Badge Overlay */}
-            <div className={`absolute top-16 right-6 z-20 ${stage === 3 ? 'hidden' : ''}`}>
-              <ScoreBadge score={stage === 4 ? 67 : 12} animate={stage === 4} />
             </div>
           </div>
 
