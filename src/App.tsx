@@ -571,33 +571,53 @@ const ScoreBadge = ({ score, animate = false }: { score: number, animate?: boole
 
 const TheProblem = () => {
   const [stage, setStage] = useState(0);
+  const [isInView, setIsInView] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
+
   const stages = [
     { id: 0, tagline: "AI recommends brands based on what it knows. Right now, it does not know yours." },
-    { id: 1, tagline: "Lumen diagnoses what is holding you back." },
-    { id: 2, tagline: "Lumen tells you exactly what to fix, ranked by impact." },
-    { id: 3, tagline: "Your dashboard shows progress in real time. Every action moves the score." },
+    { id: 1, tagline: "Lumen diagnoses exactly what is holding you back, and why." },
+    { id: 2, tagline: "Every fix is ranked by impact. You always know what to do next." },
+    { id: 3, tagline: "Track every improvement. Your dashboard shows what is working and what is next." },
     { id: 4, tagline: "AI recommends brands based on what it knows. Lumen makes sure it knows yours." }
   ];
 
   useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setStage(0);
+          setIsInView(true);
+        } else {
+          setIsInView(false);
+        }
+      },
+      { threshold: 0.3 }
+    );
+    if (sectionRef.current) observer.observe(sectionRef.current);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!isInView) return;
     const timer = setInterval(() => {
       setStage((prev) => (prev + 1) % 5);
     }, 5500);
     return () => clearInterval(timer);
-  }, []);
+  }, [isInView]);
 
   return (
-    <section className="py-32 px-6 bg-[#F8F6F1] relative z-10 overflow-hidden">
+    <section ref={sectionRef} className="py-32 px-6 bg-[#F8F6F1] relative z-10 overflow-hidden">
       <div className="max-w-5xl mx-auto flex flex-col items-center">
         <ScrollReveal className="w-full flex flex-col items-center mb-16">
-          <span className="font-mono text-xs text-amber uppercase tracking-widest mb-6">The Problem</span>
+          <span className="font-mono text-xs text-amber uppercase tracking-widest mb-6">What changes</span>
           <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl text-navy text-center leading-[1.1] max-w-3xl">
-            This is happening right now, thousands of times a day.
+            From invisible to recommended.
           </h2>
         </ScrollReveal>
         
         <div className="w-full max-w-4xl relative">
-          <div className="bg-white rounded-[32px] shadow-2xl border border-navy/5 overflow-hidden relative min-h-[580px] md:min-h-[520px]">
+          <div className="bg-white rounded-[32px] shadow-2xl border border-navy/5 overflow-hidden relative min-h-[580px] md:min-h-[560px]">
             {/* Browser Header */}
             <div className="bg-navy/5 px-4 py-3 flex items-center justify-center relative border-b border-navy/5">
               <div className="absolute left-4 flex gap-1.5">
@@ -606,7 +626,7 @@ const TheProblem = () => {
                 <div className="w-2.5 h-2.5 rounded-full bg-navy/20"></div>
               </div>
               <span className="font-mono text-[10px] text-navy/40 uppercase tracking-widest">
-                {stage === 3 ? "lumen.so/dashboard" : "chatgpt.com"}
+                {stage === 3 ? 'lumen.so/dashboard' : 'chatgpt.com'}
               </span>
             </div>
             
@@ -748,128 +768,232 @@ const TheProblem = () => {
                 )}
 
                 {stage === 3 && (
-                  <motion.div 
+                  <motion.div
                     key="stage3"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -20 }}
                     transition={{ duration: 0.4 }}
-                    className="flex h-full min-h-[400px]"
+                    className="flex gap-4 py-2"
+                    style={{ transform: 'scale(0.82)', transformOrigin: 'top center' }}
                   >
-                    {/* Mini Sidebar */}
-                    <div className="w-48 bg-[#FAFAFA] border-r border-navy/5 p-4 flex-shrink-0 hidden md:flex flex-col">
+                    {/* Sidebar - hidden on mobile */}
+                    <div className="w-48 bg-[#FAFAFA] rounded-xl border border-navy/5 p-4 flex-shrink-0 hidden md:flex flex-col">
+                      <div className="flex items-center gap-2 mb-6">
+                        <Logo size="text-xs" />
+                      </div>
+
                       <div className="mb-6">
                         <div className="text-[8px] font-bold text-navy/40 uppercase tracking-wider mb-2">AI Perception</div>
                         <div className="space-y-0.5">
-                          <div className="flex items-center gap-2 px-2 py-1.5 rounded-md bg-white shadow-sm border border-navy/5 text-navy font-medium text-[10px]">
+                          <div className="flex items-center gap-2 px-2 py-1.5 rounded-md bg-white shadow-sm border border-navy/5 text-navy font-medium text-[11px]">
                             <BarChart3 className="w-3 h-3 text-amber" /> Overview
                           </div>
-                          <div className="flex items-center gap-2 px-2 py-1.5 text-navy/40 font-medium text-[10px]">
+                          <div className="flex items-center gap-2 px-2 py-1.5 rounded-md text-navy/50 text-[11px]">
                             <Box className="w-3 h-3" /> Products
                           </div>
-                          <div className="flex items-center gap-2 px-2 py-1.5 text-navy/40 font-medium text-[10px]">
+                          <div className="flex items-center gap-2 px-2 py-1.5 rounded-md text-navy/50 text-[11px]">
                             <Tag className="w-3 h-3" /> Category
                           </div>
-                          <div className="flex items-center gap-2 px-2 py-1.5 text-navy/40 font-medium text-[10px]">
+                          <div className="flex items-center gap-2 px-2 py-1.5 rounded-md text-navy/50 text-[11px]">
                             <Award className="w-3 h-3" /> Brand
                           </div>
                         </div>
                       </div>
+
                       <div>
                         <div className="text-[8px] font-bold text-navy/40 uppercase tracking-wider mb-2">Action Center</div>
                         <div className="space-y-0.5">
-                          <div className="flex items-center gap-2 px-2 py-1.5 text-navy/40 font-medium text-[10px]">
+                          <div className="flex items-center gap-2 px-2 py-1.5 rounded-md text-navy/50 text-[11px]">
                             <FileText className="w-3 h-3" /> Content Optimization
                           </div>
-                          <div className="flex items-center gap-2 px-2 py-1.5 text-navy/40 font-medium text-[10px]">
+                          <div className="flex items-center gap-2 px-2 py-1.5 rounded-md text-navy/50 text-[11px]">
                             <ShieldCheck className="w-3 h-3" /> Trust & Proof
                           </div>
-                          <div className="flex items-center gap-2 px-2 py-1.5 text-navy/40 font-medium text-[10px]">
+                          <div className="flex items-center gap-2 px-2 py-1.5 rounded-md text-navy/50 text-[11px]">
                             <Zap className="w-3 h-3" /> Authority Engine
                           </div>
                         </div>
                       </div>
                     </div>
 
-                    {/* Mini Main Content */}
-                    <div className="flex-1 p-6 bg-white overflow-hidden">
-                      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                        {/* Audit Score Breakdown */}
-                        <div className="bg-white rounded-xl border border-navy/5 p-4 shadow-sm">
-                          <div className="text-[9px] font-bold text-navy uppercase tracking-wider mb-4">Audit Score Breakdown</div>
-                          <div className="flex items-center gap-6">
-                            <div className="relative w-20 h-20 flex-shrink-0">
-                              <svg viewBox="0 0 100 100" className="w-full h-full transform -rotate-90">
-                                <circle cx="50" cy="50" r="40" fill="transparent" stroke="#f1f5f9" strokeWidth="12" />
-                                <motion.circle 
-                                  cx="50" cy="50" r="40" fill="transparent" 
-                                  initial={{ stroke: "#ef4444", strokeDashoffset: 200.96 }}
-                                  animate={{ stroke: "#E8A838", strokeDashoffset: 100.48 }}
-                                  transition={{ duration: 1, ease: "easeOut" }}
-                                  strokeWidth="12" strokeDasharray="251.2"
-                                />
-                              </svg>
-                              <div className="absolute inset-0 flex flex-col items-center justify-center">
-                                <motion.span 
-                                  initial={{ opacity: 0 }}
-                                  animate={{ opacity: 1 }}
-                                  className="text-xl font-bold text-navy leading-none"
-                                >
-                                  240
-                                </motion.span>
-                                <span className="text-[8px] text-navy/40 font-medium">of 400</span>
-                              </div>
+                    {/* Main content */}
+                    <div className="flex-1 flex flex-col gap-3 min-w-0">
+                      {/* Commerce Multiplier Card */}
+                      <div className="bg-white rounded-xl border border-navy/5 p-4 shadow-sm">
+                        <div className="flex items-center justify-between mb-3">
+                          <div className="flex items-center gap-1.5 text-navy font-medium text-xs">
+                            <Zap className="w-3.5 h-3.5 text-amber" /> A.I. Commerce Multiplier
+                          </div>
+                          <div className="text-[10px] font-medium text-navy/50 bg-warm/50 px-1.5 py-0.5 rounded">This Month</div>
+                        </div>
+                        <div className="flex items-baseline gap-3 mb-4">
+                          <div className="text-4xl font-sans font-medium text-navy tracking-tight">2.3x</div>
+                          <div className="flex items-center gap-1 text-[10px] font-medium text-blue-600 bg-blue-50 px-1.5 py-0.5 rounded">
+                            <ArrowUpRight className="w-2.5 h-2.5" /> +0.4x
+                          </div>
+                        </div>
+                        <div className="grid grid-cols-2 gap-4 pt-3 border-t border-navy/5">
+                          <div>
+                            <div className="text-[9px] font-bold text-navy/40 uppercase tracking-wider mb-1">AI-Attributed Revenue</div>
+                            <div className="text-lg font-medium text-navy">$45.2K</div>
+                          </div>
+                          <div>
+                            <div className="text-[9px] font-bold text-navy/40 uppercase tracking-wider mb-1">Baseline (Without AI)</div>
+                            <div className="text-lg font-medium text-navy/40">$19.7K</div>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Audit Score Card */}
+                      <div className="bg-white rounded-xl border border-navy/5 p-4 shadow-sm">
+                        <div className="flex items-center justify-between mb-4">
+                          <div className="text-[10px] font-bold text-navy uppercase tracking-wider">Audit Score Breakdown</div>
+                        </div>
+                        <div className="flex items-center gap-6">
+                          {/* Donut Chart - animates from 80/400 to 240/400 */}
+                          <div className="relative w-20 h-20 flex-shrink-0">
+                            <svg viewBox="0 0 100 100" className="w-full h-full transform -rotate-90">
+                              <circle cx="50" cy="50" r="40" fill="transparent" stroke="#f1f5f9" strokeWidth="12" />
+                              <motion.circle
+                                cx="50" cy="50" r="40" fill="transparent" strokeWidth="12"
+                                strokeDasharray="251.2"
+                                initial={{ strokeDashoffset: 200.96, stroke: "#ef4444" }}
+                                animate={{ strokeDashoffset: 100.48, stroke: "#E8A838" }}
+                                transition={{ duration: 1.2, ease: "easeOut", delay: 0.3 }}
+                              />
+                            </svg>
+                            <div className="absolute inset-0 flex flex-col items-center justify-center">
+                              <motion.span
+                                className="text-xl font-bold text-navy leading-none"
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                transition={{ delay: 0.5 }}
+                              >
+                                240
+                              </motion.span>
+                              <span className="text-[9px] text-navy/40 font-medium">of 400</span>
                             </div>
-                            <div className="flex-1 space-y-2">
-                              {[
-                                { label: "Product Presence", start: 0, end: 35 },
-                                { label: "Product Relevance", start: 10, end: 55 },
-                                { label: "Brand Authority", start: 45, end: 80 },
-                                { label: "Purchase Readiness", start: 25, end: 70 }
-                              ].map((f, i) => (
-                                <div key={i} className="flex items-center justify-between">
-                                  <span className="text-[9px] text-navy/60">{f.label}</span>
-                                  <motion.span 
-                                    initial={{ opacity: 0 }}
-                                    animate={{ opacity: 1 }}
-                                    transition={{ delay: i * 0.15 }}
-                                    className="text-[9px] font-bold text-amber"
-                                  >
-                                    {f.end}
-                                  </motion.span>
+                          </div>
+
+                          {/* Factor scores animating from bad to improved */}
+                          <div className="flex-1 space-y-2">
+                            {[
+                              { label: "Product Presence", from: 0, to: 35 },
+                              { label: "Product Relevance", from: 10, to: 55 },
+                              { label: "Brand Authority", from: 45, to: 80 },
+                              { label: "Purchase Readiness", from: 25, to: 70 }
+                            ].map((factor, i) => (
+                              <motion.div
+                                key={i}
+                                className="flex items-center justify-between"
+                                initial={{ opacity: 0, x: -10 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ delay: 0.4 + i * 0.15 }}
+                              >
+                                <div className="flex items-center gap-1.5 text-[11px] text-navy/80">
+                                  <motion.div
+                                    className="w-1.5 h-1.5 rounded-full"
+                                    initial={{ backgroundColor: "#ef4444" }}
+                                    animate={{ backgroundColor: "#E8A838" }}
+                                    transition={{ delay: 0.6 + i * 0.15, duration: 0.5 }}
+                                  />
+                                  {factor.label}
                                 </div>
-                              ))}
+                                <motion.div
+                                  className="text-[11px] font-bold"
+                                  initial={{ color: "#ef4444" }}
+                                  animate={{ color: "#E8A838" }}
+                                  transition={{ delay: 0.6 + i * 0.15, duration: 0.5 }}
+                                >
+                                  {factor.to}
+                                </motion.div>
+                              </motion.div>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Right Panel - hidden on mobile */}
+                    <div className="w-56 space-y-3 hidden lg:flex flex-col flex-shrink-0">
+                      {/* AI Assistant Activity */}
+                      <div className="bg-white rounded-xl border border-navy/5 p-4 shadow-sm">
+                        <div className="flex items-center justify-between mb-4">
+                          <div className="flex items-center gap-1.5 text-navy font-medium text-[11px]">
+                            <Activity className="w-3.5 h-3.5 text-blue-500" /> AI Assistant Activity
+                          </div>
+                          <div className="text-[9px] text-navy/40">Last 7 days</div>
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <div className="relative w-12 h-12">
+                            <svg viewBox="0 0 100 100" className="w-full h-full transform -rotate-90">
+                              <circle cx="50" cy="50" r="40" fill="transparent" stroke="#f1f5f9" strokeWidth="16" />
+                              <circle cx="50" cy="50" r="40" fill="transparent" stroke="#3b82f6" strokeWidth="16" strokeDasharray="251.2" strokeDashoffset="62.8" />
+                              <circle cx="50" cy="50" r="40" fill="transparent" stroke="#10b981" strokeWidth="16" strokeDasharray="251.2" strokeDashoffset="188.4" />
+                            </svg>
+                            <div className="absolute inset-0 flex items-center justify-center">
+                              <span className="text-sm font-bold text-navy">630</span>
                             </div>
+                          </div>
+                          <div className="text-center">
+                            <div className="text-base font-bold text-navy">211</div>
+                            <div className="text-[8px] font-bold text-navy/40 uppercase tracking-wider mb-0.5">Citations</div>
+                            <div className="text-[10px] font-medium text-emerald-500">+23%</div>
+                          </div>
+                          <div className="text-center">
+                            <div className="text-base font-bold text-navy">25</div>
+                            <div className="text-[8px] font-bold text-navy/40 uppercase tracking-wider mb-0.5">Purchases</div>
+                            <div className="text-[10px] font-medium text-emerald-500">+45%</div>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Simulation Insights */}
+                      <div className="bg-white rounded-xl border border-navy/5 p-4 shadow-sm">
+                        <div className="flex items-center justify-between mb-4">
+                          <div className="flex items-center gap-1.5 text-navy font-medium text-[11px]">
+                            <Zap className="w-3.5 h-3.5 text-amber" /> Simulation Insights
+                          </div>
+                          <div className="text-[9px] text-navy/40">Updated 5m ago</div>
+                        </div>
+
+                        <div className="bg-blue-50/50 rounded-lg p-3 border border-blue-100 mb-3">
+                          <div className="flex items-center justify-between mb-2">
+                            <div className="flex items-center gap-1 text-[9px] font-bold text-blue-600 uppercase tracking-wider">
+                              <Target className="w-2.5 h-2.5" /> Top Opportunity
+                            </div>
+                            <div className="text-[8px] font-medium text-blue-600 bg-blue-100 px-1.5 py-0.5 rounded-full">High confidence</div>
+                          </div>
+                          <div className="font-serif text-sm text-navy mb-3">Index 28 Missing Products</div>
+
+                          <div className="flex items-center justify-between bg-white rounded-md p-2 border border-blue-100 mb-3">
+                            <div>
+                              <div className="text-[8px] font-bold text-navy/40 uppercase tracking-wider mb-0.5">Current</div>
+                              <div className="text-[11px] font-bold text-navy">23% AI visibility</div>
+                            </div>
+                            <ChevronRight className="w-3 h-3 text-navy/20" />
+                            <div>
+                              <div className="text-[8px] font-bold text-navy/40 uppercase tracking-wider mb-0.5">Projected</div>
+                              <div className="text-[11px] font-bold text-blue-600">45% AI visibility</div>
+                            </div>
+                          </div>
+
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-1 text-[11px] font-bold text-navy">
+                              <ArrowUpRight className="w-3 h-3 text-blue-600" /> +$4.5K/mo <span className="text-[9px] font-normal text-navy/50">projected impact</span>
+                            </div>
+                            <button className="bg-blue-600 text-white text-[10px] font-medium px-2.5 py-1 rounded-md">
+                              Start
+                            </button>
                           </div>
                         </div>
 
-                        {/* Simulation Insights */}
-                        <div className="bg-white rounded-xl border border-navy/5 p-4 shadow-sm">
-                          <div className="flex items-center gap-1.5 text-navy font-medium text-[9px] mb-3">
-                            <Zap className="w-3 h-3 text-amber" /> Simulation Insights
-                          </div>
-                          <div className="bg-blue-50/50 rounded-lg p-3 border border-blue-100">
-                            <div className="flex items-center gap-1 text-[8px] font-bold text-blue-600 uppercase tracking-wider mb-2">
-                              <Target className="w-2.5 h-2.5" /> Top Opportunity
-                            </div>
-                            <div className="text-[10px] font-bold text-navy mb-2">Index 28 Missing Products</div>
-                            <div className="flex items-center justify-between bg-white rounded-md p-2 border border-blue-50 mb-2">
-                              <div>
-                                <div className="text-[7px] font-bold text-navy/40 uppercase mb-0.5">Current</div>
-                                <div className="text-[9px] font-bold text-navy">23%</div>
-                              </div>
-                              <ChevronRight className="w-2.5 h-2.5 text-navy/20" />
-                              <div>
-                                <div className="text-[7px] font-bold text-navy/40 uppercase mb-0.5">Projected</div>
-                                <div className="text-[9px] font-bold text-blue-600">45%</div>
-                              </div>
-                            </div>
-                            <div className="flex items-center justify-between">
-                              <div className="text-[9px] font-bold text-navy flex items-center gap-1">
-                                <ArrowUpRight className="w-2.5 h-2.5 text-blue-600" /> +$4.5K/mo
-                              </div>
-                              <div className="bg-blue-600 text-white text-[8px] font-medium px-2 py-1 rounded-md">Start</div>
-                            </div>
+                        <div>
+                          <div className="text-[8px] font-bold text-navy/40 uppercase tracking-wider mb-2">Other Opportunities</div>
+                          <div className="flex items-center justify-between p-2 rounded-md border border-navy/5">
+                            <div className="text-[11px] font-medium text-navy/80">Optimize Product Titles</div>
+                            <div className="text-[9px] font-medium text-blue-600 bg-blue-50 px-1.5 py-0.5 rounded">+18% clicks</div>
                           </div>
                         </div>
                       </div>
