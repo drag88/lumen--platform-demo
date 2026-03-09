@@ -1001,10 +1001,10 @@ export default function App() {
       <Navbar />
       <main>
         <Hero />
+        <FeaturesBentoGrid />
         <DashboardPreviewSection />
         <TheProblem />
         <HowItWorks />
-        <FeaturesBentoGrid />
         <Testimonial />
         <PreFooterCTA />
       </main>
