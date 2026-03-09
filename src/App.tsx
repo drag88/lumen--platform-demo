@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { ArrowRight, Search, Activity, Zap, CheckCircle2, ChevronRight, BarChart3, Target, Compass, Sparkles, Box, Tag, Award, History, FileText, ShieldCheck, Send, Settings, Bell, User, ArrowUpRight, Eye, Bot, PlayCircle } from 'lucide-react';
+import { ArrowRight, Search, Activity, Zap, CheckCircle2, ChevronRight, BarChart3, Target, Compass, Sparkles, Box, Tag, Award, History, FileText, ShieldCheck, Send, Settings, Bell, User, ArrowUpRight, Eye, Bot, PlayCircle, Check } from 'lucide-react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { motion, AnimatePresence, Variants } from 'motion/react';
@@ -519,19 +519,84 @@ const itemVariants: Variants = {
   }
 };
 
-const TheProblem = () => {
+const ScoreBadge = ({ score, animate = false }: { score: number, animate?: boolean }) => {
+  const [displayScore, setDisplayScore] = useState(animate ? 12 : score);
+
+  useEffect(() => {
+    if (animate) {
+      let start = 12;
+      const end = score;
+      const duration = 800;
+      const startTime = performance.now();
+
+      const update = (now: number) => {
+        const elapsed = now - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const easeOut = 1 - Math.pow(1 - progress, 3);
+        const current = Math.floor(start + (end - start) * easeOut);
+        setDisplayScore(current);
+
+        if (progress < 1) {
+          requestAnimationFrame(update);
+        }
+      };
+      requestAnimationFrame(update);
+    } else {
+      setDisplayScore(score);
+    }
+  }, [score, animate]);
+
   return (
-    <section className="py-32 px-6 bg-warm relative z-10">
-      <div className="max-w-4xl mx-auto flex flex-col items-center">
-        <ScrollReveal className="w-full flex flex-col items-center">
-          <span className="font-mono text-xs text-amber uppercase tracking-widest mb-6 self-start md:self-center">The Problem</span>
-          <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl text-navy text-left md:text-center leading-[1.1] mb-16 max-w-2xl self-start md:self-center">
+    <motion.div 
+      initial={{ opacity: 0, scale: 0.9 }}
+      animate={{ opacity: 1, scale: 1 }}
+      className="bg-white rounded-xl shadow-lg border border-navy/5 p-4 flex flex-col items-center min-w-[110px]"
+    >
+      <span className="font-mono text-[9px] text-navy/40 uppercase tracking-widest mb-1">AI Visibility Score</span>
+      <div className="flex items-baseline gap-1">
+        <span className="text-3xl font-mono font-bold text-amber">{displayScore}</span>
+        <span className="text-xs text-navy/20 font-mono">/100</span>
+      </div>
+      <div className="w-full h-1 bg-navy/5 rounded-full mt-2 overflow-hidden">
+        <motion.div 
+          initial={{ width: "12%" }}
+          animate={{ width: `${displayScore}%` }}
+          transition={{ duration: animate ? 0.8 : 0.4, ease: "easeOut" }}
+          className="h-full bg-amber"
+        />
+      </div>
+    </motion.div>
+  );
+};
+
+const TheProblem = () => {
+  const [stage, setStage] = useState(0);
+  const stages = [
+    { id: 0, tagline: "AI recommends brands based on what it knows. Right now, it does not know yours." },
+    { id: 1, tagline: "Lumen diagnoses what is holding you back." },
+    { id: 2, tagline: "Lumen tells you exactly what to fix, ranked by impact." },
+    { id: 3, tagline: "AI recommends brands based on what it knows. Lumen makes sure it knows yours." }
+  ];
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setStage((prev) => (prev + 1) % 4);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, []);
+
+  return (
+    <section className="py-32 px-6 bg-[#F8F6F1] relative z-10 overflow-hidden">
+      <div className="max-w-5xl mx-auto flex flex-col items-center">
+        <ScrollReveal className="w-full flex flex-col items-center mb-16">
+          <span className="font-mono text-xs text-amber uppercase tracking-widest mb-6">The Problem</span>
+          <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl text-navy text-center leading-[1.1] max-w-3xl">
             This is happening right now, thousands of times a day.
           </h2>
         </ScrollReveal>
         
-        <ScrollReveal delay={0.2} className="w-full max-w-3xl">
-          <div className="bg-white rounded-2xl shadow-xl border border-navy/5 overflow-hidden mb-16">
+        <div className="w-full max-w-4xl relative">
+          <div className="bg-white rounded-[32px] shadow-2xl border border-navy/5 overflow-hidden relative min-h-[580px] md:min-h-[520px]">
             {/* Browser Header */}
             <div className="bg-navy/5 px-4 py-3 flex items-center justify-center relative border-b border-navy/5">
               <div className="absolute left-4 flex gap-1.5">
@@ -539,74 +604,227 @@ const TheProblem = () => {
                 <div className="w-2.5 h-2.5 rounded-full bg-navy/20"></div>
                 <div className="w-2.5 h-2.5 rounded-full bg-navy/20"></div>
               </div>
-              <span className="font-mono text-xs text-navy/40">chatgpt.com</span>
+              <span className="font-mono text-[10px] text-navy/40 uppercase tracking-widest">chatgpt.com</span>
             </div>
             
-            {/* Chat Content */}
-            <div className="p-6 md:p-10 flex flex-col gap-8">
-              {/* User Message */}
-              <motion.div 
-                initial={{ opacity: 0, x: 20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: 0.4 }}
-                className="self-end bg-navy/5 rounded-2xl rounded-tr-sm px-6 py-4 max-w-[80%]"
-              >
-                <p className="text-navy font-sans text-sm md:text-base">What are the best sustainable fashion brands?</p>
-              </motion.div>
-              
-              {/* AI Message */}
-              <motion.div 
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: 1.2 }}
-                className="flex gap-4"
-              >
-                <div className="w-8 h-8 rounded-full bg-navy flex items-center justify-center shrink-0 mt-1">
-                  <span className="text-white text-xs font-mono">AI</span>
-                </div>
-                <div className="text-navy/80 font-sans text-sm md:text-base leading-relaxed space-y-4">
-                  <p>Here are some of the most recognized sustainable fashion brands:</p>
-                  <ol className="list-decimal pl-4 space-y-2">
-                    {[
-                      { name: "Patagonia", desc: "A pioneer in environmental responsibility, known for outerwear and transparent supply chains." },
-                      { name: "Stella McCartney", desc: "Luxury fashion committed to cruelty-free practices." },
-                      { name: "Eileen Fisher", desc: "Focuses on circular design and organic materials." },
-                      { name: "Reformation", desc: "Tracks the environmental footprint of every item." },
-                      { name: "Veja", desc: "Transparently made sneakers using wild rubber and organic cotton." }
-                    ].map((brand, i) => (
-                      <motion.li 
-                        key={i}
-                        initial={{ opacity: 0, y: 10 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.4, delay: 1.8 + i * 0.2 }}
-                      >
-                        <span className="font-bold text-navy">{brand.name}:</span> {brand.desc}
-                      </motion.li>
-                    ))}
-                  </ol>
+            {/* Content Area */}
+            <div className="p-6 md:p-10 relative">
+              <AnimatePresence mode="wait">
+                {stage === 0 && (
                   <motion.div 
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.8, delay: 3.2 }}
-                    className="pl-4 border-l-2 border-navy/10 mt-4"
+                    key="stage0"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    transition={{ duration: 0.4 }}
+                    className="flex flex-col gap-6"
                   >
-                    <p className="italic text-navy/40">6. Your brand?</p>
+                    <div className="self-end bg-navy/5 rounded-2xl rounded-tr-sm px-6 py-4 max-w-[80%]">
+                      <p className="text-navy font-sans text-sm md:text-base">What are the best sustainable fashion brands?</p>
+                    </div>
+                    <div className="flex gap-4">
+                      <div className="w-8 h-8 rounded-full bg-navy flex items-center justify-center shrink-0 mt-1">
+                        <span className="text-white text-xs font-mono">AI</span>
+                      </div>
+                      <div className="text-navy/80 font-sans text-sm md:text-base leading-relaxed space-y-4">
+                        <p>Here are some of the most recognized sustainable fashion brands:</p>
+                        <ol className="list-decimal pl-4 space-y-2">
+                          <li><span className="font-bold text-navy">Patagonia:</span> A pioneer in environmental responsibility.</li>
+                          <li><span className="font-bold text-navy">Stella McCartney:</span> Luxury fashion committed to cruelty-free practices.</li>
+                          <li><span className="font-bold text-navy">Eileen Fisher:</span> Focuses on circular design and organic materials.</li>
+                          <li><span className="font-bold text-navy">Reformation:</span> Tracks the environmental footprint of every item.</li>
+                          <li><span className="font-bold text-navy">Veja:</span> Transparently made sneakers.</li>
+                        </ol>
+                        <div className="pl-4 border-l-2 border-navy/10 mt-4">
+                          <p className="italic text-navy/20">6. Your brand?</p>
+                        </div>
+                      </div>
+                    </div>
                   </motion.div>
-                </div>
-              </motion.div>
+                )}
+
+                {stage === 1 && (
+                  <motion.div 
+                    key="stage1"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    transition={{ duration: 0.4 }}
+                    className="flex flex-col gap-8 py-4"
+                  >
+                    <h3 className="text-xl font-bold text-navy">Diagnostic Factors</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
+                      {[
+                        { label: "Third-party mentions", status: "Low", value: 20 },
+                        { label: "Content quality", status: "Needs work", value: 35 },
+                        { label: "Structured data", status: "Missing", value: 5 },
+                        { label: "Citation presence", status: "Weak", value: 15 }
+                      ].map((factor, i) => (
+                        <div key={i} className="space-y-2">
+                          <div className="flex justify-between text-[10px] font-mono uppercase tracking-wider">
+                            <span className="text-navy/60">{factor.label}</span>
+                            <span className="text-amber">{factor.status}</span>
+                          </div>
+                          <div className="w-full h-2 bg-navy/5 rounded-full overflow-hidden">
+                            <motion.div 
+                              initial={{ width: 0 }}
+                              animate={{ width: `${factor.value}%` }}
+                              transition={{ duration: 0.8, delay: i * 0.1, ease: "easeOut" }}
+                              className="h-full bg-amber"
+                            />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="mt-8 p-6 bg-navy/5 rounded-2xl border border-navy/5">
+                      <p className="text-sm text-navy/60 leading-relaxed">
+                        Lumen identifies that your brand lacks structured data and third-party citations, which are critical for AI recognition in your category.
+                      </p>
+                    </div>
+                  </motion.div>
+                )}
+
+                {stage === 2 && (
+                  <motion.div 
+                    key="stage2"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    transition={{ duration: 0.4 }}
+                    className="flex flex-col gap-6 py-4"
+                  >
+                    <h3 className="text-xl font-bold text-navy">Recommended Actions</h3>
+                    <div className="space-y-4">
+                      <motion.div 
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.2 }}
+                        className="bg-white border-2 border-amber rounded-2xl p-6 shadow-sm relative overflow-hidden group"
+                      >
+                        <div className="flex justify-between items-start mb-3">
+                          <h4 className="font-bold text-navy text-lg">Rewrite product descriptions for AI readability</h4>
+                          <motion.div 
+                            initial={{ scale: 0 }}
+                            animate={{ scale: 1 }}
+                            transition={{ delay: 1.5, type: "spring", stiffness: 200 }}
+                            className="w-8 h-8 rounded-full bg-emerald-500 flex items-center justify-center shrink-0 shadow-lg shadow-emerald-500/20"
+                          >
+                            <Check className="w-5 h-5 text-white" />
+                          </motion.div>
+                        </div>
+                        <div className="flex gap-4">
+                          <span className="text-[10px] font-mono text-navy/40 uppercase tracking-widest bg-navy/5 px-2 py-1 rounded">~2 hours</span>
+                          <span className="text-[10px] font-mono text-emerald-600 font-bold uppercase tracking-widest bg-emerald-50 px-2 py-1 rounded">+8-12 points</span>
+                        </div>
+                      </motion.div>
+
+                      <motion.div 
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.4 }}
+                        className="bg-white border border-navy/5 rounded-2xl p-6 shadow-sm relative overflow-hidden"
+                      >
+                        <div className="flex justify-between items-start mb-3">
+                          <h4 className="font-bold text-navy text-lg">Add structured FAQ content</h4>
+                          <motion.div 
+                            initial={{ scale: 0 }}
+                            animate={{ scale: 1 }}
+                            transition={{ delay: 2.5, type: "spring", stiffness: 200 }}
+                            className="w-8 h-8 rounded-full bg-emerald-500 flex items-center justify-center shrink-0 shadow-lg shadow-emerald-500/20"
+                          >
+                            <Check className="w-5 h-5 text-white" />
+                          </motion.div>
+                        </div>
+                        <div className="flex gap-4">
+                          <span className="text-[10px] font-mono text-navy/40 uppercase tracking-widest bg-navy/5 px-2 py-1 rounded">~1 hour</span>
+                          <span className="text-[10px] font-mono text-emerald-600 font-bold uppercase tracking-widest bg-emerald-50 px-2 py-1 rounded">+3-5 points</span>
+                        </div>
+                      </motion.div>
+                    </div>
+                  </motion.div>
+                )}
+
+                {stage === 3 && (
+                  <motion.div 
+                    key="stage3"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    transition={{ duration: 0.4 }}
+                    className="flex flex-col gap-6"
+                  >
+                    <div className="self-end bg-navy/5 rounded-2xl rounded-tr-sm px-6 py-4 max-w-[80%]">
+                      <p className="text-navy font-sans text-sm md:text-base">What are the best sustainable fashion brands?</p>
+                    </div>
+                    <div className="flex gap-4">
+                      <div className="w-8 h-8 rounded-full bg-navy flex items-center justify-center shrink-0 mt-1">
+                        <span className="text-white text-xs font-mono">AI</span>
+                      </div>
+                      <div className="text-navy/80 font-sans text-sm md:text-base leading-relaxed space-y-4">
+                        <p>Here are some of the most recognized sustainable fashion brands:</p>
+                        <ol className="list-decimal pl-4 space-y-2">
+                          <li><span className="font-bold text-navy">Patagonia:</span> A pioneer in environmental responsibility.</li>
+                          <li><span className="font-bold text-navy">Stella McCartney:</span> Luxury fashion committed to cruelty-free practices.</li>
+                          <motion.li 
+                            initial={{ backgroundColor: "rgba(232, 168, 56, 0)", scale: 1, x: -10, opacity: 0 }}
+                            animate={{ backgroundColor: "rgba(232, 168, 56, 0.05)", scale: 1.02, x: 0, opacity: 1 }}
+                            transition={{ duration: 0.6, delay: 0.8 }}
+                            className="p-3 rounded-xl border border-amber/30 shadow-sm"
+                          >
+                            <span className="font-bold text-navy">Your Brand:</span> Recognized for its innovative circular design and ethical supply chain.
+                          </motion.li>
+                          <li><span className="font-bold text-navy">Eileen Fisher:</span> Focuses on circular design and organic materials.</li>
+                          <li><span className="font-bold text-navy">Reformation:</span> Tracks the environmental footprint of every item.</li>
+                        </ol>
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+
+            {/* Score Badge Overlay */}
+            <div className="absolute top-16 right-6 z-20">
+              <ScoreBadge score={stage === 3 ? 67 : 12} animate={stage === 3} />
             </div>
           </div>
-        </ScrollReveal>
-        
-        <ScrollReveal delay={0.4}>
-          <p className="text-navy/80 text-center text-lg max-w-xl">
-            AI recommends brands based on what it knows. <span className="font-bold text-navy">Lumen makes sure it knows yours.</span>
-          </p>
-        </ScrollReveal>
+
+          {/* Tagline & Progress */}
+          <div className="mt-12 flex flex-col items-center">
+            <AnimatePresence mode="wait">
+              <motion.p 
+                key={stage}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.3 }}
+                className="text-navy/80 text-center text-lg max-w-xl mb-8"
+              >
+                {stages[stage].tagline.split('Lumen').map((part, i, arr) => (
+                  <React.Fragment key={i}>
+                    {part}
+                    {i < arr.length - 1 && <span className="font-bold text-navy">Lumen</span>}
+                  </React.Fragment>
+                ))}
+              </motion.p>
+            </AnimatePresence>
+
+            <div className="flex gap-3">
+              {stages.map((s) => (
+                <button
+                  key={s.id}
+                  onClick={() => setStage(s.id)}
+                  className={`h-1.5 rounded-full transition-all duration-500 ${stage === s.id ? 'bg-amber w-8' : 'bg-navy/10 w-4'}`}
+                  aria-label={`Go to stage ${s.id + 1}`}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-24 opacity-40 hover:opacity-100 transition-opacity duration-500">
+          <Logo size="text-xl" />
+        </div>
       </div>
     </section>
   );
